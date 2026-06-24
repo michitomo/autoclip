@@ -1,6 +1,24 @@
 {
   "clips": [
     {
+      "id": "56351_高山聡史",
+      "session_id": "56351",
+      "member": "高山聡史",
+      "affiliation": "チームみらい",
+      "committee": "内閣委員会",
+      "date": "2026-06-24",
+      "title": "科学技術イノベーション｜活性化法案への賛成討論",
+      "n_topics": 1,
+      "topics": [
+        {
+          "index": 0,
+          "label": "法案の原案及び修正案への賛成",
+          "question_speaker": "高山聡史",
+          "answer_speakers": []
+        }
+      ]
+    },
+    {
       "id": "56345_古川あおい",
       "session_id": "56345",
       "member": "古川あおい",
@@ -70,24 +88,6 @@
           "index": 7,
           "label": "政府答弁に対する謝辞",
           "question_speaker": "古川あおい",
-          "answer_speakers": []
-        }
-      ]
-    },
-    {
-      "id": "56351_高山聡史",
-      "session_id": "56351",
-      "member": "高山聡史",
-      "affiliation": "チームみらい",
-      "committee": "内閣委員会",
-      "date": "2026-06-24",
-      "title": "科学技術イノベーション｜活性化法案への賛成討論",
-      "n_topics": 1,
-      "topics": [
-        {
-          "index": 0,
-          "label": "法案の原案及び修正案への賛成",
-          "question_speaker": "高山聡史",
           "answer_speakers": []
         }
       ]

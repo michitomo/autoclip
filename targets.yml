@@ -1,10 +1,7 @@
-# 生成するクリップの指定リスト。GitHub Actions がこれを読んで事前生成する。
-# session_id 直指定、または date + committee で指定。
-- session_id: "56345"
-  member: 古川あおい
-- session_id: "56351"
-  member: 高山聡史
-- session_id: "56342"
-  member: 河合道雄
-- session_id: "56338"
-  member: 峰島侑也
+# 生成するクリップの指定リスト (= まだ data/ に無い、今すぐ作りたい議員)。
+# 空でOK: data/ にある既存クリップは catalog に常に載る (build_site が data/ を走査)。
+# 生成 (ASR/LLM 課金) が走るのは、ここに新規議員を足したとき = Issue リクエスト
+# (clip-request.yml が自動追記) または手動追加のときだけ。
+# 例:
+# - session_id: "56345"
+#   member: 古川あおい

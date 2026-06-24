@@ -148,7 +148,6 @@ def build(targets_path: Path, out_dir: Path, work_dir: Path) -> dict:
     logger.info("targets: %d 件", len(targets))
 
     out_dir.mkdir(parents=True, exist_ok=True)
-    clips: list[dict] = []
 
     for t in targets:
         try:
@@ -158,15 +157,9 @@ def build(targets_path: Path, out_dir: Path, work_dir: Path) -> dict:
             clip_dir = out_dir / clip_id
             existing_proj = clip_dir / "project.json"
 
-            # 既に生成済み (JSON が data/ にある) ならスキップ。catalog だけ作り直す。
+            # 既に生成済み (JSON が data/ にある) ならスキップ (catalog は後で data/ を
+            # 走査してまとめて作るので、ここでは append しない)。
             if existing_proj.exists() and (clip_dir / "edl.json").exists():
-                project = json.loads(existing_proj.read_text("utf-8"))
-                clips.append(_catalog_entry(
-                    clip_id, sid, project.get("member", t.member),
-                    project.get("affiliation", ""),
-                    project.get("committee", ""), project.get("date", ""),
-                    project,
-                ))
                 logger.info("  -> %s (既存・スキップ)", clip_id)
                 continue
 
@@ -210,21 +203,50 @@ def build(targets_path: Path, out_dir: Path, work_dir: Path) -> dict:
                 json.dumps(edl, ensure_ascii=False), "utf-8"
             )
 
-            clips.append(_catalog_entry(
-                clip_id, sid, member_info.name, member_info.affiliation,
-                detail.committee, detail.date, project,
-            ))
             logger.info("  -> %s (%d topics)", clip_id,
                         len((project.get("qa_tree") or {}).get("topics", [])))
         except Exception as e:  # noqa: BLE001 - 1 件失敗は飛ばして続行
             logger.error("生成失敗 (member=%s): %s", t.member, e)
 
+    # catalog は targets と無関係に **data/ にある全クリップ** から作る。
+    # → targets.yml を空にしても既存クリップはサイトに残る (生成=課金は targets に
+    #   新規がある時=Issue/手動追加時のみ。普段の cron は生成ゼロ)。
+    clips = _scan_catalog(out_dir)
     catalog = {"clips": clips, "count": len(clips)}
     (out_dir / "catalog.json").write_text(
         json.dumps(catalog, ensure_ascii=False, indent=2), "utf-8"
     )
-    logger.info("catalog.json 書き出し: %d クリップ", len(clips))
+    logger.info("catalog.json 書き出し: %d クリップ (data/ 走査)", len(clips))
     return catalog
+
+
+def _scan_catalog(out_dir: Path) -> list[dict]:
+    """out_dir 直下の各 <clip_id>/project.json を走査して catalog エントリ群を作る。
+
+    targets に依存せず、生成済み (data/ にある) クリップを全て載せる。日付の新しい順、
+    同日は session_id 順で並べる。
+    """
+    entries: list[dict] = []
+    for clip_dir in sorted(out_dir.iterdir()):
+        if not clip_dir.is_dir():
+            continue
+        proj_path = clip_dir / "project.json"
+        if not proj_path.exists() or not (clip_dir / "edl.json").exists():
+            continue
+        try:
+            project = json.loads(proj_path.read_text("utf-8"))
+        except (json.JSONDecodeError, OSError):
+            continue
+        clip_id = clip_dir.name
+        sid = project.get("session_id") or clip_id.split("_", 1)[0]
+        entries.append(_catalog_entry(
+            clip_id, str(sid), project.get("member", ""),
+            project.get("affiliation", ""), project.get("committee", ""),
+            project.get("date", ""), project,
+        ))
+    # 日付降順 → session_id 降順 (新しいものを上に)
+    entries.sort(key=lambda c: (c.get("date", ""), c.get("session_id", "")), reverse=True)
+    return entries
 
 
 def main() -> None:
