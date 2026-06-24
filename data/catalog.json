@@ -30,7 +30,7 @@
       "topics": [
         {
           "index": 0,
-          "label": "国保納付金算定システムの誤りについて",
+          "label": "国保納付金算定システムの誤り",
           "question_speaker": "古川あおい",
           "answer_speakers": [
             "狭間保健"
@@ -38,7 +38,7 @@
         },
         {
           "index": 1,
-          "label": "再発防止策の具体性への疑問",
+          "label": "一体的な管理仕組みの検討要求",
           "question_speaker": "古川あおい",
           "answer_speakers": [
             "狭間保健"
@@ -46,7 +46,7 @@
         },
         {
           "index": 2,
-          "label": "国保連合会のシステム関係経費の質問",
+          "label": "国保連合会発注システムの経費質問",
           "question_speaker": "古川あおい",
           "answer_speakers": [
             "狭間保健"
@@ -54,7 +54,7 @@
         },
         {
           "index": 3,
-          "label": "発注の効率性と透明性確保への注視",
+          "label": "NDBに関する質疑への移行",
           "question_speaker": "古川あおい",
           "answer_speakers": [
             "狭間保健"
@@ -62,7 +62,7 @@
         },
         {
           "index": 4,
-          "label": "リソース増強による体制整備の要望",
+          "label": "データ範囲拡大と品質確保の質問",
           "question_speaker": "古川あおい",
           "answer_speakers": [
             "森審議官"
@@ -70,7 +70,7 @@
         },
         {
           "index": 5,
-          "label": "記載の不一致によるデータ一元化の課題",
+          "label": "データの品質に関する質問",
           "question_speaker": "古川あおい",
           "answer_speakers": [
             "森審議官"
@@ -78,7 +78,7 @@
         },
         {
           "index": 6,
-          "label": "人材確保とインセンティブの質問",
+          "label": "人材とインセンティブへの質問",
           "question_speaker": "古川あおい",
           "answer_speakers": [
             "森審議官"
@@ -86,7 +86,7 @@
         },
         {
           "index": 7,
-          "label": "施策の推進に対する要望",
+          "label": "質疑の終了",
           "question_speaker": "古川あおい",
           "answer_speakers": []
         }
@@ -104,7 +104,7 @@
       "topics": [
         {
           "index": 0,
-          "label": "電気事業法改正案に関する質問",
+          "label": "電気事業法改正案への質問",
           "question_speaker": "河合道雄",
           "answer_speakers": [
             "事業"
@@ -112,7 +112,7 @@
         },
         {
           "index": 1,
-          "label": "火力リプレイスによる需給変動",
+          "label": "火力発電の供給力に関する質問",
           "question_speaker": "河合道雄",
           "answer_speakers": [
             "事業"
@@ -120,7 +120,7 @@
         },
         {
           "index": 2,
-          "label": "26年度供給計画の予備力不足",
+          "label": "2026年度以降の供給予備力不足の見通し",
           "question_speaker": "河合道雄",
           "answer_speakers": [
             "事業"
@@ -128,7 +128,7 @@
         },
         {
           "index": 3,
-          "label": "中短期の電力需給安定化の方針",
+          "label": "電力需給安定化の方針への質問",
           "question_speaker": "河合道雄",
           "answer_speakers": [
             "赤澤"
@@ -136,7 +136,7 @@
         },
         {
           "index": 4,
-          "label": "大規模電源への公的融資に関する質問",
+          "label": "大規模電源への公的融資の質問",
           "question_speaker": "河合道雄",
           "answer_speakers": [
             "事業"
@@ -144,7 +144,7 @@
         },
         {
           "index": 5,
-          "label": "成立後の継続的な検討と見直し要求",
+          "label": "エネルギー基本計画の目標値",
           "question_speaker": "河合道雄",
           "answer_speakers": [
             "赤澤"
@@ -152,7 +152,7 @@
         },
         {
           "index": 6,
-          "label": "非制度電源の把握の困難さ",
+          "label": "電源把握に関する質問",
           "question_speaker": "河合道雄",
           "answer_speakers": [
             "事業"
@@ -160,7 +160,7 @@
         },
         {
           "index": 7,
-          "label": "需給モニタリングの継続検討",
+          "label": "需給モニタリングの継続検討要望",
           "question_speaker": "河合道雄",
           "answer_speakers": [
             "井本保安"
@@ -176,7 +176,7 @@
         },
         {
           "index": 9,
-          "label": "2040年の人材不足予測数",
+          "label": "スマート保安に関する質問",
           "question_speaker": "河合道雄",
           "answer_speakers": [
             "湯本保安"
@@ -184,7 +184,7 @@
         },
         {
           "index": 10,
-          "label": "導入インセンティブの設計検討",
+          "label": "導入インセンティブの検討要望",
           "question_speaker": "河合道雄",
           "answer_speakers": [
             "赤澤"
@@ -192,7 +192,7 @@
         },
         {
           "index": 11,
-          "label": "取り組みへの期待表明",
+          "label": "取り組みの進展への期待",
           "question_speaker": "河合道雄",
           "answer_speakers": []
         }
@@ -218,7 +218,7 @@
         },
         {
           "index": 1,
-          "label": "提出法案の検討期間に関する指摘",
+          "label": "提出法案の検討期間と組織構成",
           "question_speaker": "峰島侑也",
           "answer_speakers": [
             "栗沢勲"
@@ -226,7 +226,7 @@
         },
         {
           "index": 2,
-          "label": "議論の引き延ばしに対する疑問",
+          "label": "会議の具体的検討テーマ",
           "question_speaker": "峰島侑也",
           "answer_speakers": [
             "栗沢勲"
@@ -234,7 +234,7 @@
         },
         {
           "index": 3,
-          "label": "学識経験者の検討事項への質問",
+          "label": "学識者の検討内容への質問",
           "question_speaker": "峰島侑也",
           "answer_speakers": [
             "栗沢勲"
@@ -242,7 +242,7 @@
         },
         {
           "index": 4,
-          "label": "会議による歩み寄りの確証確認",
+          "label": "会議による歩み寄りの確証",
           "question_speaker": "峰島侑也",
           "answer_speakers": [
             "栗沢勲"
@@ -250,7 +250,7 @@
         },
         {
           "index": 5,
-          "label": "会議設置への疑問と主張",
+          "label": "第三者委員会設置への疑問",
           "question_speaker": "峰島侑也",
           "answer_speakers": [
             "栗沢勲"
@@ -258,7 +258,7 @@
         },
         {
           "index": 6,
-          "label": "献金企業名の公表内容",
+          "label": "献金企業名の公表基準",
           "question_speaker": "峰島侑也",
           "answer_speakers": [
             "栗沢勲"
@@ -274,7 +274,7 @@
         },
         {
           "index": 8,
-          "label": "企業団体献金による政策歪曲の懸念",
+          "label": "政策決定を歪める献金の認識",
           "question_speaker": "峰島侑也",
           "answer_speakers": [
             "栗沢勲"
@@ -282,7 +282,7 @@
         },
         {
           "index": 9,
-          "label": "自民党の自発的な公開への期待",
+          "label": "企業団体献金による政策の歪み",
           "question_speaker": "峰島侑也",
           "answer_speakers": []
         }
