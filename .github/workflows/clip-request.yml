@@ -111,7 +111,10 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: gh workflow run build-pages.yml --repo "${{ github.repository }}" --ref main
 
-      - name: Comment on issue
+      # 受付したらコメントで所要目安を伝えて Issue をクローズする (受付＝完了ではないが、
+      # 生成は数分〜10分ほどで Pages に自動反映され、サイトから書き出せるため開きっぱなしに
+      # しない)。クローズ後もコメントは残るので案内は失われない。
+      - name: Comment & close issue
         uses: actions/github-script@v7
         with:
           script: |
@@ -120,10 +123,16 @@ jobs:
             const member = '${{ steps.parse.outputs.member }}'
             const msg = added
               ? `🛠️ 生成リクエストを受け付けました (session ${sid} / ${member})。\n` +
-                `targets.yml に追加し、まもなく生成→公開されます。完了後はサイトから書き出せます。`
+                `生成が始まりました。**数分〜10分ほど**でサイトに自動反映され、書き出せるようになります。\n` +
+                `反映まで少しお待ちください。この Issue はクローズします。`
               : `✅ このクリップは既に生成対象です (session ${sid} / ${member})。\n` +
-                `サイトからそのまま書き出せます (反映待ちの場合は数分お待ちください)。`
+                `サイトからそのまま書き出せます (反映待ちの場合は数分お待ちください)。この Issue はクローズします。`
             await github.rest.issues.createComment({
               owner: context.repo.owner, repo: context.repo.repo,
               issue_number: context.payload.issue.number, body: msg,
+            })
+            await github.rest.issues.update({
+              owner: context.repo.owner, repo: context.repo.repo,
+              issue_number: context.payload.issue.number,
+              state: 'closed', state_reason: 'completed',
             })
