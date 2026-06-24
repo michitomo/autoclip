@@ -7,12 +7,12 @@
       "affiliation": "チームみらい",
       "committee": "内閣委員会",
       "date": "2026-06-24",
-      "title": "科学技術イノベーション｜活性化法案への賛成討論",
+      "title": "科学技術イノベーション｜法案への賛成討論",
       "n_topics": 1,
       "topics": [
         {
           "index": 0,
-          "label": "法案の原案及び修正案への賛成",
+          "label": "法案修正案への賛成表明",
           "question_speaker": "高山聡史",
           "answer_speakers": []
         }
@@ -30,7 +30,7 @@
       "topics": [
         {
           "index": 0,
-          "label": "国保納付金算定システムの誤り",
+          "label": "国保納付金算定システムの誤りについて",
           "question_speaker": "古川あおい",
           "answer_speakers": [
             "狭間保健"
@@ -46,7 +46,7 @@
         },
         {
           "index": 2,
-          "label": "システム関係経費に関する質問",
+          "label": "国保連合会のシステム関係経費の質問",
           "question_speaker": "古川あおい",
           "answer_speakers": [
             "狭間保健"
@@ -54,7 +54,7 @@
         },
         {
           "index": 3,
-          "label": "発注の効率性と透明性の注視",
+          "label": "発注の効率性と透明性確保への注視",
           "question_speaker": "古川あおい",
           "answer_speakers": [
             "狭間保健"
@@ -62,7 +62,7 @@
         },
         {
           "index": 4,
-          "label": "体制整備とリソース増強の要望",
+          "label": "リソース増強による体制整備の要望",
           "question_speaker": "古川あおい",
           "answer_speakers": [
             "森審議官"
@@ -70,7 +70,7 @@
         },
         {
           "index": 5,
-          "label": "データの品質に関する質問",
+          "label": "記載の不一致によるデータ一元化の課題",
           "question_speaker": "古川あおい",
           "answer_speakers": [
             "森審議官"
@@ -86,7 +86,7 @@
         },
         {
           "index": 7,
-          "label": "普及計画の推進要望",
+          "label": "施策の推進に対する要望",
           "question_speaker": "古川あおい",
           "answer_speakers": []
         }
@@ -99,8 +99,8 @@
       "affiliation": "チームみらい",
       "committee": "経済産業委員会",
       "date": "2026-06-19",
-      "title": "電力需給の見通し｜と電源系統整備への活用",
-      "n_topics": 5,
+      "title": "電力需給の見通し｜と政策判断への活用",
+      "n_topics": 12,
       "topics": [
         {
           "index": 0,
@@ -112,27 +112,23 @@
         },
         {
           "index": 1,
-          "label": "中短期の電力需給安定化の方針",
+          "label": "火力リプレイスによる需給変動",
           "question_speaker": "河合道雄",
           "answer_speakers": [
-            "赤澤",
             "事業"
           ]
         },
         {
           "index": 2,
-          "label": "大臣への謝辞",
+          "label": "26年度供給計画の予備力不足",
           "question_speaker": "河合道雄",
           "answer_speakers": [
-            "赤澤",
-            "事業",
-            "井本保安",
-            "湯本保安"
+            "事業"
           ]
         },
         {
           "index": 3,
-          "label": "導入インセンティブの設計",
+          "label": "中短期の電力需給安定化の方針",
           "question_speaker": "河合道雄",
           "answer_speakers": [
             "赤澤"
@@ -140,8 +136,64 @@
         },
         {
           "index": 4,
-          "label": "発言者の指名への応答",
-          "question_speaker": "山岡達丸",
+          "label": "大規模電源への公的融資に関する質問",
+          "question_speaker": "河合道雄",
+          "answer_speakers": [
+            "事業"
+          ]
+        },
+        {
+          "index": 5,
+          "label": "成立後の継続的な検討と見直し要求",
+          "question_speaker": "河合道雄",
+          "answer_speakers": [
+            "赤澤"
+          ]
+        },
+        {
+          "index": 6,
+          "label": "非制度電源の把握の困難さ",
+          "question_speaker": "河合道雄",
+          "answer_speakers": [
+            "事業"
+          ]
+        },
+        {
+          "index": 7,
+          "label": "需給モニタリングの継続検討",
+          "question_speaker": "河合道雄",
+          "answer_speakers": [
+            "井本保安"
+          ]
+        },
+        {
+          "index": 8,
+          "label": "省庁横断的な人材把握の重要性",
+          "question_speaker": "河合道雄",
+          "answer_speakers": [
+            "事業"
+          ]
+        },
+        {
+          "index": 9,
+          "label": "2040年の人材不足予測数",
+          "question_speaker": "河合道雄",
+          "answer_speakers": [
+            "湯本保安"
+          ]
+        },
+        {
+          "index": 10,
+          "label": "導入インセンティブの設計検討",
+          "question_speaker": "河合道雄",
+          "answer_speakers": [
+            "赤澤"
+          ]
+        },
+        {
+          "index": 11,
+          "label": "取り組みへの期待表明",
+          "question_speaker": "河合道雄",
           "answer_speakers": []
         }
       ]
@@ -153,15 +205,15 @@
       "affiliation": "チームみらい",
       "committee": "政治改革特別委員会",
       "date": "2026-06-18",
-      "title": "企業団体献金の｜全面禁止と法案提出の意図",
-      "n_topics": 9,
+      "title": "企業団体献金の｜全面禁止に向けた法案",
+      "n_topics": 10,
       "topics": [
         {
           "index": 0,
           "label": "現行法案の内容への批判",
           "question_speaker": "峰島侑也",
           "answer_speakers": [
-            "峰島侑也"
+            "高市早苗"
           ]
         },
         {
@@ -169,59 +221,67 @@
           "label": "提出法案の検討期間に関する指摘",
           "question_speaker": "峰島侑也",
           "answer_speakers": [
-            "峰島侑也"
+            "栗沢勲"
           ]
         },
         {
           "index": 2,
-          "label": "学識経験者への検討委ねへの疑問",
+          "label": "議論の引き延ばしに対する疑問",
           "question_speaker": "峰島侑也",
           "answer_speakers": [
-            "峰島侑也"
+            "栗沢勲"
           ]
         },
         {
           "index": 3,
-          "label": "学識経験者の検討内容への問い",
+          "label": "学識経験者の検討事項への質問",
           "question_speaker": "峰島侑也",
           "answer_speakers": [
-            "峰島侑也"
+            "栗沢勲"
           ]
         },
         {
           "index": 4,
-          "label": "献金企業名公表の具体的条文",
+          "label": "会議による歩み寄りの確証確認",
           "question_speaker": "峰島侑也",
           "answer_speakers": [
-            "峰島侑也"
+            "栗沢勲"
           ]
         },
         {
           "index": 5,
-          "label": "献金企業名の公表に関する現状",
+          "label": "会議設置への疑問と主張",
           "question_speaker": "峰島侑也",
           "answer_speakers": [
-            "峰島侑也"
+            "栗沢勲"
           ]
         },
         {
           "index": 6,
-          "label": "有識者会議の時間稼ぎへの懸念",
+          "label": "献金企業名の公表内容",
           "question_speaker": "峰島侑也",
           "answer_speakers": [
-            "峰島侑也"
+            "栗沢勲"
           ]
         },
         {
           "index": 7,
-          "label": "政策決定を歪める懸念の再確認",
+          "label": "有識者会議の時間稼ぎ懸念",
           "question_speaker": "峰島侑也",
           "answer_speakers": [
-            "今岡植"
+            "栗沢勲"
           ]
         },
         {
           "index": 8,
+          "label": "企業団体献金による政策歪曲の懸念",
+          "question_speaker": "峰島侑也",
+          "answer_speakers": [
+            "栗沢勲"
+          ]
+        },
+        {
+          "index": 9,
           "label": "自民党の自発的な公開への期待",
           "question_speaker": "峰島侑也",
           "answer_speakers": []
