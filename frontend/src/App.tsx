@@ -239,8 +239,8 @@ function WizardApp() {
 
       <footer className="legal-note">
         映像の出典: <a href="https://www.shugiintv.go.jp/" target="_blank" rel="noreferrer">衆議院インターネット審議中継</a>。
-        生成したクリップを公開・配布する際は出典を明示し、発言の文脈を損なわないようご注意ください。
-        本サイトは生成物の利用許諾を保証するものではありません。
+        生成したクリップを利用・公開できるかどうかは、衆議院インターネット審議中継の利用規約等をご自身でご確認・ご判断ください。
+        本サイトは利用の可否を判断・保証するものではありません。
       </footer>
     </div>
   )
@@ -269,7 +269,7 @@ function RequestView({
         <span className="empty-ic">🛠️</span>
         <span className="empty-text">
           このクリップはまだ生成されていません。<br />
-          生成をリクエストすると、自動で作成され後で書き出せるようになります。
+          生成をリクエストすると自動で作成され、<strong>数分〜10分ほど</strong>でこのサイトに反映されて書き出せるようになります。
         </span>
       </div>
       <div className="row" style={{ marginTop: 14 }}>
@@ -278,7 +278,8 @@ function RequestView({
         </a>
       </div>
       <p className="muted" style={{ marginTop: 10, fontSize: 13 }}>
-        ※ GitHubのIssue作成画面が開きます。内容はそのままで「Submit new issue」を押すだけです。
+        ※ GitHubのIssue作成画面が開きます。内容はそのままで「Submit new issue」を押すだけです。<br />
+        リクエスト後は数分〜10分ほどで生成されます。完了したらこのページを再読み込みすると表示されます。
       </p>
     </section>
   )

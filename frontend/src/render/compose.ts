@@ -116,6 +116,31 @@ export async function renderClip(
   let frame = 0
   let lastUi = t0
 
+  // 音声: 映像ループと完全に直列だった (映像 encode を全部待ってから音声 trim+再encode)
+  // ため、区間ごとの seek/decode/encode がそのまま末尾の待ち時間になっていた。
+  // 音声トラックは映像トラックと独立 (別 encoder・muxer が時刻で interleave) なので、
+  // output.start() 直後に走らせて映像ループと並行させる。映像の裏に隠れた分だけ短縮。
+  let audioMs = 0
+  const audioDone: Promise<void> = (async () => {
+    if (!audioTrack || !audioSource) return
+    const as = performance.now()
+    const aSink = new AudioSampleSink(audioTrack)
+    for (const seg of segs) {
+      // この区間の音声サンプルを順に取り、開始を outStart に揃える
+      for await (const sample of aSink.samples(seg.srcStart, seg.srcEnd)) {
+        // 映像と同様、seg 開始より前のサンプル (キーフレーム手前) は捨てる。
+        // 残すと音声が前詰めされて A/V がズレる。
+        if (sample.timestamp < seg.srcStart - 1e-3) { sample.close(); continue }
+        // サンプルの src 時刻 → post-cut 時刻へシフト
+        const shifted = seg.outStart + (sample.timestamp - seg.srcStart)
+        sample.setTimestamp(Math.max(0, shifted))
+        await audioSource.add(sample)
+        sample.close()
+      }
+    }
+    audioMs = performance.now() - as
+  })()
+
   // ステージ別の所要時間 (ボトルネック計測用)
   const prof = { decode: 0, draw: 0, encode: 0 }
 
@@ -168,26 +193,15 @@ export async function renderClip(
   // 計測結果を window に出す (デバッグ用)
   ;(globalThis as { __renderProf?: typeof prof }).__renderProf = prof
 
-  // --- 音声: keep_range ごとに trim し、post-cut タイムラインへ前詰めして mux ---
+  // --- 音声: output.start() 直後から映像と並行で走らせている。ここで完了を待つだけ。
+  // 映像より先に終わっていれば tail.audio ≈ 0 (= 完全に隠れた)。映像より後に食い込む
+  // 分だけが体感の待ちになる。
   ts = performance.now()
-  if (audioTrack && audioSource) {
-    opts.onStage?.('audio')
-    const aSink = new AudioSampleSink(audioTrack)
-    for (const seg of segs) {
-      // この区間の音声サンプルを順に取り、開始を outStart に揃える
-      for await (const sample of aSink.samples(seg.srcStart, seg.srcEnd)) {
-        // 映像と同様、seg 開始より前のサンプル (キーフレーム手前) は捨てる。
-        // 残すと音声が前詰めされて A/V がズレる。
-        if (sample.timestamp < seg.srcStart - 1e-3) { sample.close(); continue }
-        // サンプルの src 時刻 → post-cut 時刻へシフト
-        const shifted = seg.outStart + (sample.timestamp - seg.srcStart)
-        sample.setTimestamp(Math.max(0, shifted))
-        await audioSource.add(sample)
-        sample.close()
-      }
-    }
-  }
+  if (audioTrack && audioSource) opts.onStage?.('audio')
+  await audioDone
   tail.audio = performance.now() - ts
+  // 参考: 音声処理が実際に要した総時間 (並行分も含む)。tail.audio との差が「隠れた量」。
+  ;(globalThis as { __audioMs?: number }).__audioMs = audioMs
 
   ts = performance.now()
   opts.onStage?.('finalize')
