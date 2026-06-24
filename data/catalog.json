@@ -46,7 +46,7 @@
         },
         {
           "index": 2,
-          "label": "国保連合会のシステム関係経費の質問",
+          "label": "システム関係経費に関する質問",
           "question_speaker": "古川あおい",
           "answer_speakers": [
             "狭間保健"
@@ -54,7 +54,7 @@
         },
         {
           "index": 3,
-          "label": "発注の効率性と透明性確保への注視",
+          "label": "発注の効率性と透明性の注視",
           "question_speaker": "古川あおい",
           "answer_speakers": [
             "狭間保健"
@@ -70,7 +70,7 @@
         },
         {
           "index": 5,
-          "label": "データの品質に関する質疑",
+          "label": "データの品質に関する質問",
           "question_speaker": "古川あおい",
           "answer_speakers": [
             "森審議官"
@@ -78,7 +78,7 @@
         },
         {
           "index": 6,
-          "label": "標準化人材とインセンティブの質問",
+          "label": "人材確保とインセンティブの質問",
           "question_speaker": "古川あおい",
           "answer_speakers": [
             "森審議官"
@@ -86,7 +86,7 @@
         },
         {
           "index": 7,
-          "label": "政府答弁に対する謝辞",
+          "label": "普及計画の推進要望",
           "question_speaker": "古川あおい",
           "answer_speakers": []
         }
@@ -132,7 +132,7 @@
         },
         {
           "index": 3,
-          "label": "設備投資へのインセンティブ設計",
+          "label": "導入インセンティブの設計",
           "question_speaker": "河合道雄",
           "answer_speakers": [
             "赤澤"
@@ -140,7 +140,7 @@
         },
         {
           "index": 4,
-          "label": "質疑者の指名",
+          "label": "発言者の指名への応答",
           "question_speaker": "山岡達丸",
           "answer_speakers": []
         }
@@ -166,7 +166,7 @@
         },
         {
           "index": 1,
-          "label": "2022年の政治資金パーティー問題",
+          "label": "提出法案の検討期間に関する指摘",
           "question_speaker": "峰島侑也",
           "answer_speakers": [
             "峰島侑也"
@@ -174,7 +174,7 @@
         },
         {
           "index": 2,
-          "label": "学識経験者への意見聴取の是非",
+          "label": "学識経験者への検討委ねへの疑問",
           "question_speaker": "峰島侑也",
           "answer_speakers": [
             "峰島侑也"
@@ -190,7 +190,7 @@
         },
         {
           "index": 4,
-          "label": "献金企業名の公表に関する条文",
+          "label": "献金企業名公表の具体的条文",
           "question_speaker": "峰島侑也",
           "answer_speakers": [
             "峰島侑也"
@@ -198,7 +198,7 @@
         },
         {
           "index": 5,
-          "label": "1000万円超の献金名公表の現状",
+          "label": "献金企業名の公表に関する現状",
           "question_speaker": "峰島侑也",
           "answer_speakers": [
             "峰島侑也"
@@ -206,7 +206,7 @@
         },
         {
           "index": 6,
-          "label": "有識者会議の時間稼ぎへの疑念",
+          "label": "有識者会議の時間稼ぎへの懸念",
           "question_speaker": "峰島侑也",
           "answer_speakers": [
             "峰島侑也"
@@ -214,7 +214,7 @@
         },
         {
           "index": 7,
-          "label": "各政党による透明性向上の実践要求",
+          "label": "政策決定を歪める懸念の再確認",
           "question_speaker": "峰島侑也",
           "answer_speakers": [
             "今岡植"
