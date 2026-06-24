@@ -4,7 +4,9 @@ autoclip: generate vertical social clips of a specific Diet member's questioning
 衆議院TV (shugiintv.go.jp) committee video. Flow: date→committee→member→(topic) →
 burned-in subtitles + JetCut (filler/dead-air removal) + Q&A-hierarchy editing.
 Human-review required (don't cut political speech out of context).
-Legal basis: 著作権法 40-1 + 48 (source attribution required).
+Legal: users must check 衆議院TV's terms themselves; show source attribution on
+all output (links to shugiintv.go.jp). The project warrants no usage license.
+(著作権法 40-1 + 48 may apply, but applicability is the user's responsibility.)
 
 ## Layout
 - `backend/` — Python 3.12 / FastAPI. Copy of an upstream Diet-transcription

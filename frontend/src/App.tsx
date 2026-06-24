@@ -236,6 +236,13 @@ function WizardApp() {
           />
         )
       )}
+
+      <footer className="legal-note">
+        映像の出典: <a href="https://www.shugiintv.go.jp/" target="_blank" rel="noreferrer">衆議院インターネット審議中継</a>。
+        利用にあたっては、衆議院TV の利用規約・著作権の扱いを各自でご確認ください。
+        生成したクリップを公開・配布する際は出典を明示し、発言の文脈を損なわないようご注意ください。
+        本サイトは生成物の利用許諾を保証するものではありません。
+      </footer>
     </div>
   )
 }

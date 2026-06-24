@@ -53,6 +53,13 @@ body {
   padding: 28px 24px 96px;
 }
 
+/* 利用上の注意 (出典・規約は自己確認) — 常時フッター */
+.legal-note {
+  margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--border);
+  font-size: 12px; line-height: 1.7; color: var(--faint);
+}
+.legal-note a { color: var(--mint-dim); }
+
 header {
   display: flex;
   align-items: baseline;
