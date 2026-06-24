@@ -287,7 +287,65 @@
           "answer_speakers": []
         }
       ]
+    },
+    {
+      "id": "56326_古川あおい",
+      "session_id": "56326",
+      "member": "古川あおい",
+      "affiliation": "チームみらい",
+      "committee": "厚生労働委員会",
+      "date": "2026-06-12",
+      "title": "ヒトゲノム編集胚の｜規制と研究開発への影響",
+      "n_topics": 6,
+      "topics": [
+        {
+          "index": 0,
+          "label": "規制による研究遅延への懸念",
+          "question_speaker": "古川あおい",
+          "answer_speakers": [
+            "二期"
+          ]
+        },
+        {
+          "index": 1,
+          "label": "指針の公表時期と研究負担",
+          "question_speaker": "古川あおい",
+          "answer_speakers": [
+            "佐々木"
+          ]
+        },
+        {
+          "index": 2,
+          "label": "見直し規定に関する質問",
+          "question_speaker": "古川あおい",
+          "answer_speakers": [
+            "佐々木"
+          ]
+        },
+        {
+          "index": 3,
+          "label": "行政の事務負担増に関する質問",
+          "question_speaker": "古川あおい",
+          "answer_speakers": [
+            "佐々木"
+          ]
+        },
+        {
+          "index": 4,
+          "label": "適正な業務量維持と人員配置の仕組み",
+          "question_speaker": "古川あおい",
+          "answer_speakers": [
+            "宮崎"
+          ]
+        },
+        {
+          "index": 5,
+          "label": "事務規定の文書化に関する関心",
+          "question_speaker": "古川あおい",
+          "answer_speakers": []
+        }
+      ]
     }
   ],
-  "count": 4
+  "count": 5
 }
