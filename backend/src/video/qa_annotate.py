@@ -22,6 +22,7 @@ from concurrent.futures import ThreadPoolExecutor
 from src.api_client import LLM_MODEL, get_client, with_retry
 from src.models import QASentence, QATree
 from src.structurer import _repair_json_string_controls
+from src.video.qaseg import move_response_comments_to_prev
 
 logger = logging.getLogger(__name__)
 
@@ -34,15 +35,26 @@ _MAX_WORKERS = 12
 _VALID_IMPORTANCE = {"high", "mid", "low"}
 
 _SYSTEM_PROMPT = """あなたは国会質疑の編集アシスタントです。各発言(文)に
-(1)10〜20文字の体言止め要約 と (2)重要度 high/mid/low を判定してください。
+(1)10〜20文字の体言止め要約、(2)重要度 high/mid/low、(3)直前の答弁への応答コメントか
+(reply) を判定してください。
 
 ## 重要度の基準
 - high: 質問の核心 / 数値・固有名詞・法令名 / 明確な要求・約束 / 争点となる主張。
 - mid:  文脈に必要な説明・背景・前置き・具体例。
 - low:  挨拶・お礼・自己紹介・定型の議事進行(「はい」「以上です」等)・繋ぎ・脱線。
 
+## reply (直前の答弁への応答コメントか) の基準
+質疑者(議員)の発言のうち、**直前の答弁を受けたお礼・相槌・受け止め・感想**で、
+まだ新しい質問の本題に入っていないものを reply=true とする。
+- reply=true の例: 「ありがとうございました」「ご答弁ありがとうございます」
+  「はい、承知しました」「分かりました」「○○大臣、ありがとうございました」
+  「今のお答えを踏まえますと」(本題に入る前の受け)。
+- reply=false の例: 新しい質問・要求・主張・本題の説明・前置き。質問の核心。
+- 答弁者(大臣・参考人等)の発言は常に reply=false。
+- 自己紹介(「○○の○○です」)や議事進行も reply=false。
+
 ## 出力 (JSON のみ)
-{"items":[{"idx":<入力のidx>,"summary":"<体言止め要約>","importance":"high|mid|low"}, ...]}
+{"items":[{"idx":<入力のidx>,"summary":"<体言止め要約>","importance":"high|mid|low","reply":true|false}, ...]}
 - 入力の全 idx を 1 回ずつ含めること。説明や前置きを付けないこと。"""
 
 
@@ -164,6 +176,7 @@ def annotate_sentences(
                 for k, v in part.items():
                     by_idx.setdefault(k, v)  # first-wins (チャンクは idx 非重複)
 
+    reply_ids: set[int] = set()  # LLM が「直前答弁への応答」と判定した文 (id())
     for i, s in enumerate(sentences):
         it = by_idx.get(i, {})
         summary = it.get("summary")
@@ -173,6 +186,12 @@ def annotate_sentences(
         # 全文を初期 ON にする (重要度は判断材料として残すが「勝手に消えない」)。
         # 低を外すかは編集UIで人間が決める。
         s.enabled = True
+        if it.get("reply") is True:
+            reply_ids.add(id(s))
+
+    # 「応答コメント→質疑→答弁」を「質疑→答弁→コメント」に並べ替える
+    # (トピック先頭の連続 reply 文を前トピック末尾へ移す)。
+    move_response_comments_to_prev(tree, reply_ids)
 
     # トピック見出しを補完: 質問ターン (質疑者) の最重要文の要約を使う。
     # segment_qa は QASegment.topic を空にするため、ここで埋めると UI が読みやすい。

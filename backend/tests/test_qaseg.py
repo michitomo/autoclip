@@ -233,45 +233,68 @@ def test_build_qa_tree_empty_qas():
 
 
 def test_response_comment_moved_to_prev_topic():
-    # topic1 の質疑者ターンが「前答弁への応答コメント + 続いて(本題)」で始まる →
-    # コメントは topic0 末尾に移り、構成が 質疑→答弁→コメント になる。
-    from src.video.qaseg import _move_response_comments_to_prev
-    from src.models import QASentence, QATopic, QATurn
+    # topic1 の質疑者ターン先頭の reply 文 (LLM 判定) を topic0 末尾へ移し、
+    # 構成を 質疑→答弁→コメント にする。
+    from src.video.qaseg import move_response_comments_to_prev
+    from src.models import QASentence, QATopic, QATree, QATurn
 
     def turn(role, *texts):
         return QATurn(speaker="X", role=role,
                       sentences=[QASentence(text=t, start=0.0, end=1.0) for t in texts])
 
-    topics = [
-        QATopic(index=0, label="", question_speaker="A", answer_speakers=["B"],
-                turns=[turn("質疑者", "最初の質問です。"), turn("答弁者", "答弁します。")]),
-        QATopic(index=1, label="", question_speaker="A", answer_speakers=["B"],
-                turns=[turn("質疑者", "ありがとうございました。", "続いて、次の質問です。"),
-                       turn("答弁者", "次の答弁です。")]),
-    ]
-    _move_response_comments_to_prev(topics)
+    t0q = turn("質疑者", "最初の質問です。")
+    t0a = turn("答弁者", "答弁します。")
+    t1q = turn("質疑者", "ありがとうございました。", "次の質問です。")
+    t1a = turn("答弁者", "次の答弁です。")
+    tree = QATree(topics=[
+        QATopic(index=0, label="", question_speaker="A", answer_speakers=["B"], turns=[t0q, t0a]),
+        QATopic(index=1, label="", question_speaker="A", answer_speakers=["B"], turns=[t1q, t1a]),
+    ])
+    # 「ありがとうございました。」だけ reply=true
+    reply_ids = {id(t1q.sentences[0])}
+    move_response_comments_to_prev(tree, reply_ids)
 
     # topic0 末尾に応答コメントの質疑者ターンが付く
-    assert [t.role for t in topics[0].turns] == ["質疑者", "答弁者", "質疑者"]
-    assert topics[0].turns[-1].sentences[0].text == "ありがとうございました。"
+    assert [t.role for t in tree.topics[0].turns] == ["質疑者", "答弁者", "質疑者"]
+    assert tree.topics[0].turns[-1].sentences[0].text == "ありがとうございました。"
     # topic1 の質疑者ターンは本題から始まる
-    assert topics[1].turns[0].sentences[0].text == "続いて、次の質問です。"
+    assert tree.topics[1].turns[0].sentences[0].text == "次の質問です。"
 
 
-def test_response_comment_not_moved_without_marker():
-    # 転換マーカーが無い場合は移動しない (誤爆防止)。
-    from src.video.qaseg import _move_response_comments_to_prev
-    from src.models import QASentence, QATopic, QATurn
+def test_response_comment_not_moved_when_no_reply():
+    # reply 文が無ければ移動しない (誤爆防止)。
+    from src.video.qaseg import move_response_comments_to_prev
+    from src.models import QASentence, QATopic, QATree, QATurn
 
     def turn(role, *texts):
         return QATurn(speaker="X", role=role,
                       sentences=[QASentence(text=t, start=0.0, end=1.0) for t in texts])
 
-    topics = [
+    tree = QATree(topics=[
         QATopic(index=0, label="", question_speaker="A", answer_speakers=["B"],
                 turns=[turn("質疑者", "質問1"), turn("答弁者", "答弁1")]),
         QATopic(index=1, label="", question_speaker="A", answer_speakers=["B"],
                 turns=[turn("質疑者", "これは普通の質問の続きです。"), turn("答弁者", "答弁2")]),
-    ]
-    _move_response_comments_to_prev(topics)
-    assert [t.role for t in topics[0].turns] == ["質疑者", "答弁者"]  # 変化なし
+    ])
+    move_response_comments_to_prev(tree, set())  # reply_ids 空
+    assert [t.role for t in tree.topics[0].turns] == ["質疑者", "答弁者"]  # 変化なし
+
+
+def test_response_comment_all_reply_not_moved():
+    # 質疑者ターンが全文 reply (= トピック丸ごと応答) なら移動しない。
+    from src.video.qaseg import move_response_comments_to_prev
+    from src.models import QASentence, QATopic, QATree, QATurn
+
+    def turn(role, *texts):
+        return QATurn(speaker="X", role=role,
+                      sentences=[QASentence(text=t, start=0.0, end=1.0) for t in texts])
+
+    t1q = turn("質疑者", "ありがとうございました。", "以上です。")
+    tree = QATree(topics=[
+        QATopic(index=0, label="", question_speaker="A", answer_speakers=["B"],
+                turns=[turn("質疑者", "質問1"), turn("答弁者", "答弁1")]),
+        QATopic(index=1, label="", question_speaker="A", answer_speakers=["B"], turns=[t1q]),
+    ])
+    move_response_comments_to_prev(tree, {id(s) for s in t1q.sentences})
+    assert [t.role for t in tree.topics[0].turns] == ["質疑者", "答弁者"]  # 変化なし
+    assert len(tree.topics[1].turns[0].sentences) == 2  # topic1 はそのまま

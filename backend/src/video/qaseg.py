@@ -219,55 +219,46 @@ def build_qa_tree(
                 turns=turns,
             )
         )
-    _move_response_comments_to_prev(topics)
+    # 「応答コメント→質疑→答弁」を「質疑→答弁→コメント」に並べ替えるのは、応答コメント
+    # 判定 (LLM) が必要なので annotate 後に move_response_comments_to_prev で行う。
     return QATree(topics=topics)
 
 
-# 話題転換マーカー (これで始まる質疑者文 = 本題の質問の開始)。誤爆を避けるため
-# 明確に話題を切り替える語のみ ("では" 単独などの曖昧語は入れない)。
-_TOPIC_SHIFT_MARKERS = (
-    "続いて", "続きまして", "次に", "それでは", "最後に",
-    "今度は", "もう一点", "もう一つ", "ここからは", "本日はまず",
-)
-
-
-def _move_response_comments_to_prev(topics: list[QATopic]) -> None:
+def move_response_comments_to_prev(
+    tree: QATree, reply_ids: set[int]
+) -> QATree:
     """各トピックの質疑者ターン先頭にある「前答弁への応答コメント」を前トピック末尾へ移す。
 
     backend の Q&A 分割は質疑者の発話開始でトピックを切るため、1 つの質疑者ターンに
     「前答弁への応答コメント + 本題の質問」が混在し、構成が『コメント→質疑→答弁』に
-    なってしまう。先頭から **話題転換マーカー文の手前まで** を応答コメントとみなし、
-    直前トピック (= その答弁の直後) の末尾へ移すことで『質疑→答弁→コメント』にする。
-    (in-place で topics を書き換える。topic0 は前が無いので対象外。)
+    なってしまう。LLM が reply=true と判定した文 (id() が reply_ids にある) が
+    質疑者ターン先頭に連続している分を、直前トピック (= その答弁の直後) の末尾へ移し、
+    『質疑→答弁→コメント』にする。reply 判定は qa_annotate が行う (LLM)。
+    (in-place で topics を書き換え、同じ tree を返す。topic0 は前が無いので対象外。)
     """
+    topics = tree.topics
     for i in range(1, len(topics)):
         topic = topics[i]
         if not topic.turns or topic.turns[0].role not in _QUESTION_ROLES:
             continue
         qturn = topic.turns[0]
         sents = qturn.sentences
-        # 先頭文が転換マーカーなら応答コメントは無い (= 既に本題から始まる)。
-        if not sents or _starts_with_marker(sents[0].text):
+        if not sents:
             continue
-        # 転換マーカー文の位置 = 本題の開始。見つからなければ移動しない (誤爆防止)。
-        split = next(
-            (j for j, s in enumerate(sents) if _starts_with_marker(s.text)), -1
-        )
-        if split <= 0:
+        # 先頭から連続する reply 文の数を数える (本題に入った時点で打ち切り)。
+        split = 0
+        while split < len(sents) and id(sents[split]) in reply_ids:
+            split += 1
+        # 全文が reply、または1文も reply でないなら移動しない
+        # (全文 reply = トピック丸ごと応答 → そのまま残す方が安全)。
+        if split == 0 or split >= len(sents):
             continue
         comment = sents[:split]
         qturn.sentences = sents[split:]
-        # 前トピックの末尾に「質疑者の応答コメント」ターンとして足す。
-        prev = topics[i - 1]
-        prev.turns.append(
+        topics[i - 1].turns.append(
             QATurn(speaker=qturn.speaker, role=qturn.role, sentences=comment)
         )
-
-
-def _starts_with_marker(text: str) -> bool:
-    """文が話題転換マーカーで始まるか (記号を除いた先頭で判定)。"""
-    head = _norm(text)
-    return any(head.startswith(_norm(m)) for m in _TOPIC_SHIFT_MARKERS)
+    return tree
 
 
 def group_into_qa(timed: list[TimedUtterance]) -> list[QASegment]:
