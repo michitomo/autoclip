@@ -1,0 +1,2 @@
+/* autoclip frontend base (詳細は App.css) */
+html, body, #root { min-height: 100%; }

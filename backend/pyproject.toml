@@ -1,0 +1,59 @@
+[project]
+name = "autoclip-backend"
+version = "0.1.0"
+description = "衆議院TV の質疑答弁から議員別の社会メディア用クリップ (JetCut + 字幕) を自動生成する"
+requires-python = ">=3.12"
+dependencies = [
+    "requests>=2.31",
+    "beautifulsoup4>=4.12",
+    "openai>=1.30",
+    "pydantic>=2.7",
+    "python-dotenv>=1.0",
+    "fastapi>=0.111",
+    "uvicorn[standard]>=0.30",
+    "python-multipart>=0.0.9",
+    "budoux>=0.8",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.4",
+    "mypy>=1.10",
+]
+
+[project.scripts]
+autoclip = "src.clip_service:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*"]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP"]
+
+[tool.ruff.lint.per-file-ignores]
+# ASS subtitle format spec lines must stay on one line (rigid libass header).
+"src/video/subtitles.py" = ["E501"]
+# Verbatim-copied from the upstream transcription pipeline; keep diff-able with
+# upstream (upstream uses longer lines). autoclip's own modules stay E501-clean.
+"src/prompts.py" = ["E501"]
+"src/structurer.py" = ["E501"]
+"src/transcript_corrector.py" = ["E501"]
+"src/speaker_tagger.py" = ["E501"]
+"src/pipeline.py" = ["E501"]
+"src/models.py" = ["E501"]
+"src/api_client.py" = ["E501", "UP047"]
+
+[tool.pytest.ini_options]
+markers = [
+    "integration: marks tests as integration tests requiring external services (deselect with '-m \"not integration\"')",
+]

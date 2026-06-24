@@ -1,0 +1,32 @@
+{
+  "task": "transcribe",
+  "language": "japanese",
+  "duration": 60.0,
+  "text": "チームみらいの古川あおいです。高額療養費制度について伺います。お答えいたします。問題を認識しております。",
+  "segments": [
+    {
+      "id": 0,
+      "seek": 0,
+      "start": 0.0,
+      "end": 15.0,
+      "text": "チームみらいの古川あおいです。高額療養費制度について伺います。",
+      "tokens": [50364, 24676],
+      "temperature": 0.0,
+      "avg_logprob": -0.25,
+      "compression_ratio": 1.2,
+      "no_speech_prob": 0.01
+    },
+    {
+      "id": 1,
+      "seek": 0,
+      "start": 30.0,
+      "end": 60.0,
+      "text": "お答えいたします。問題を認識しております。",
+      "tokens": [50364, 12345],
+      "temperature": 0.0,
+      "avg_logprob": -0.20,
+      "compression_ratio": 1.1,
+      "no_speech_prob": 0.02
+    }
+  ]
+}

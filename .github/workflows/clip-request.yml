@@ -1,0 +1,120 @@
+name: Clip request (Issue → targets)
+
+# clip-request ラベルの Issue を拾い、本文の YAML ブロックから session_id / member を
+# 読んで targets.yml に追記する。targets.yml の push で build-pages.yml が走り、
+# そのクリップが生成されて Pages に反映される。
+#
+# 方針 (ユーザー合意): 誰でもリクエスト可・ガードなし。ただし **既に生成対象なら追記しない**
+# (targets.yml に同一エントリがある = 生成済み or 生成予定 なら skip)。
+
+on:
+  issues:
+    types: [opened, labeled]
+
+permissions:
+  contents: write   # targets.yml をコミット
+  issues: write     # Issue にコメント
+
+concurrency:
+  group: clip-request   # リクエスト処理を直列化 (targets.yml の競合を防ぐ)
+  cancel-in-progress: false
+
+jobs:
+  add-target:
+    # clip-request ラベルが付いた Issue のみ
+    if: contains(github.event.issue.labels.*.name, 'clip-request')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Parse session_id / member from issue body
+        id: parse
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = context.payload.issue.body || ''
+            // ```yaml ... ``` ブロック内の session_id / member を拾う。
+            const sid = (body.match(/session_id:\s*"?(\d+)"?/) || [])[1]
+            const memRaw = (body.match(/member:\s*(.+)/) || [])[1]
+            const member = memRaw ? memRaw.trim().replace(/^["']|["']$/g, '') : ''
+            // session_id は数字のみ、member は改行/危険文字を除去 (インジェクション対策)。
+            if (!sid || !/^\d+$/.test(sid)) {
+              core.setFailed('session_id を本文から読めませんでした (数字のYAMLブロックが必要)')
+              return
+            }
+            if (!member || /[\r\n`$;|&<>]/.test(member)) {
+              core.setFailed('member を本文から読めませんでした')
+              return
+            }
+            core.setOutput('session_id', sid)
+            core.setOutput('member', member)
+
+      - name: Append to targets.yml if not present
+        id: append
+        env:
+          SID: ${{ steps.parse.outputs.session_id }}
+          MEMBER: ${{ steps.parse.outputs.member }}
+        run: |
+          python3 - <<'PY'
+          import os, re, sys
+          sid = os.environ["SID"]
+          member = os.environ["MEMBER"]
+          path = "targets.yml"
+          text = open(path, encoding="utf-8").read() if os.path.exists(path) else ""
+          # 既に同じ (session_id, member) があるか (= 生成済み/予定なら skip)。
+          # 単純パースで - session_id: "X" / member: Y のペアを抽出。
+          pairs = set()
+          cur_sid = None
+          for line in text.splitlines():
+              s = line.split("#", 1)[0]
+              m = re.search(r'session_id:\s*"?(\d+)"?', s)
+              if m:
+                  cur_sid = m.group(1)
+              m = re.search(r'member:\s*(.+)', s)
+              if m and cur_sid:
+                  pairs.add((cur_sid, m.group(1).strip().strip('"').strip("'")))
+          if (sid, member) in pairs:
+              print(f"already present: {sid} / {member}")
+              with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+                  f.write("added=false\n")
+              sys.exit(0)
+          with open(path, "a", encoding="utf-8") as f:
+              if text and not text.endswith("\n"):
+                  f.write("\n")
+              f.write(f'- session_id: "{sid}"\n  member: {member}\n')
+          print(f"appended: {sid} / {member}")
+          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+              f.write("added=true\n")
+          PY
+
+      - name: Commit targets.yml
+        if: steps.append.outputs.added == 'true'
+        env:
+          SID: ${{ steps.parse.outputs.session_id }}
+          MEMBER: ${{ steps.parse.outputs.member }}
+          ISSUE: ${{ github.event.issue.number }}
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add targets.yml
+          git commit -m "clip request: add ${SID} / ${MEMBER} (#${ISSUE})"
+          git push origin main
+
+      - name: Comment on issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const added = '${{ steps.append.outputs.added }}' === 'true'
+            const sid = '${{ steps.parse.outputs.session_id }}'
+            const member = '${{ steps.parse.outputs.member }}'
+            const msg = added
+              ? `🛠️ 生成リクエストを受け付けました (session ${sid} / ${member})。\n` +
+                `targets.yml に追加し、まもなく生成→公開されます。完了後はサイトから書き出せます。`
+              : `✅ このクリップは既に生成対象です (session ${sid} / ${member})。\n` +
+                `サイトからそのまま書き出せます (反映待ちの場合は数分お待ちください)。`
+            await github.rest.issues.createComment({
+              owner: context.repo.owner, repo: context.repo.repo,
+              issue_number: context.payload.issue.number, body: msg,
+            })

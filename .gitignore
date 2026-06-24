@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Env / secrets
+.env
+
+# Generated media & data
+/media/
+/backend/media/
+scratch/
+*.mp4
+*.wav
+*.ass
+*.srt
+# MPEG-TS video segments (HLS download). Scoped to media/ so it does NOT match
+# TypeScript .ts source files (frontend/src/**/*.ts).
+media/**/*.ts
+**/*_src/*.ts
+
+# Node / frontend
+node_modules/
+frontend/dist/
+frontend/.vite/
+
+# OS
+.DS_Store
+
+# kokkaidb is a local symlink for reference; do not track its contents
+/kokkaidb
+/docs/
+
+# ローカル static プレビュー用 (docs/data へのリンク)
+frontend/public/data
+
+# corpus は毎時Actions生成・コミットしない (ローカル試用ファイルのみ)
+/data/corpus.json

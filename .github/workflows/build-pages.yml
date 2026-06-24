@@ -1,0 +1,123 @@
+name: Build & deploy to Pages
+
+# 指定議員 (targets.yml) のクリップ素材を事前生成し、静的フロントと一緒に
+# GitHub Pages へデプロイする。ASR/LLM キーは Secrets に隠す (公開リポでも安全)。
+# レンダ自体はブラウザ (WebCodecs) が行うため、ここでは動画は作らない。
+
+on:
+  workflow_dispatch: {} # 手動実行
+  push:
+    branches: [main]
+    paths:
+      - 'targets.yml' # 生成リスト更新時に再生成
+      - 'frontend/**'
+      - '.github/workflows/build-pages.yml'
+  # 毎時スクレイプ: 母集合 (corpus.json) を最新化して再デプロイ。
+  # clip データは targets.yml 据え置きなので既存生成物がそのまま再ビルドされる
+  # (build_site は reuse_source=True で重い再生成を避ける)。corpus だけ毎回更新。
+  schedule:
+    - cron: '0 * * * *'
+
+permissions:
+  contents: write   # 新規生成した clip JSON を data/ に commit して永続化
+  pages: write
+  id-token: write
+
+# 同時実行は1本に (デプロイ衝突を避ける)
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install ffmpeg (HLS DL + member WAV 抽出に必要)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Install backend
+        working-directory: backend
+        run: |
+          uv venv --python 3.12 .venv
+          uv pip install -e ".[dev]"
+
+      - name: Generate clip data (新規議員のみ。既存は data/ から再利用)
+        working-directory: backend
+        env:
+          DEEPINFRA_API_KEY: ${{ secrets.DEEPINFRA_API_KEY }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          # 任意: ASR_PROVIDER / AUTOCLIP_LLM_MODEL を変えるなら Secrets/vars で
+        run: |
+          # 出力先はリポ追跡の data/。既に project.json がある議員は build_site が
+          # スキップ (ASR/LLM を再実行しない = 毎時 cron でも API 課金ゼロ)。
+          .venv/bin/python -m src.build_site \
+            --targets ../targets.yml \
+            --out ../data \
+            --work media/clips
+
+      - name: Commit newly generated clip JSON to data/
+        run: |
+          # 新規生成があれば data/ を main にコミットして永続化 (次回以降スキップされる)。
+          # mp4/wav は media/ 配下で gitignore 済みなので JSON だけが乗る。
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/
+          if git diff --cached --quiet; then
+            echo "新規生成なし (data/ 変更なし)"
+          else
+            git commit -m "build: persist generated clip data [skip ci]"
+            git push origin HEAD:main || echo "push 失敗 (続行)"
+          fi
+
+      - name: Assemble site/data (clip JSON + corpus)
+        working-directory: backend
+        run: |
+          mkdir -p ../site/data
+          # 追跡済みの clip JSON (catalog.json + <id>/*) を site へ
+          cp -r ../data/. ../site/data/
+          # corpus.json は git にコミットせず site (artifact) 内のみで生成 (履歴肥大ゼロ)。
+          # 直近の審議をスクレイプ。失敗しても clip + フロントは出せるよう続行。
+          .venv/bin/python -m src.build_corpus --out ../site/data --days 10 || \
+            echo "corpus 生成に失敗 (続行)"
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Build frontend (static mode)
+        working-directory: frontend
+        env:
+          VITE_STATIC: '1'
+        run: |
+          npm ci
+          # Pages の base path はリポ名。user/org Pages の場合は '/' に。
+          npx vite build --base "/${GITHUB_REPOSITORY#*/}/" --outDir ../site --emptyOutDir=false
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deploy
+        uses: actions/deploy-pages@v4

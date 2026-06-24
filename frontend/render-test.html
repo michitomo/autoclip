@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <title>autoclip — ブラウザレンダ実データテスト</title>
+  <style>
+    body{margin:0;background:#0f1419;color:#e4e8ee;font:15px/1.6 system-ui,"Hiragino Sans",sans-serif;}
+    .wrap{max-width:760px;margin:0 auto;padding:28px 20px 80px;}
+    h1{font-size:20px;}
+    .panel{background:#161d25;border:1px solid #28333f;border-radius:12px;padding:16px 18px;margin:14px 0;}
+    button{background:#4ec8a0;color:#06231b;border:none;border-radius:8px;padding:9px 16px;font:600 14px system-ui;cursor:pointer;}
+    input{width:64px;background:#0d1116;border:1px solid #28333f;color:#e4e8ee;border-radius:7px;padding:6px 8px;}
+    #result{font-size:14px;color:#4ec8a0;min-height:1.4em;}
+    #log{white-space:pre-wrap;font:12px/1.5 ui-monospace,monospace;color:#9aa7b5;background:#0b0e12;border:1px solid #28333f;border-radius:8px;padding:12px;max-height:240px;overflow:auto;margin-top:12px;}
+    video{display:none;max-width:280px;border-radius:10px;background:#000;margin-top:14px;}
+    a.dl{display:none;margin:14px 0 0 12px;color:#4ec8a0;}
+    label{font-size:13px;color:#9aa7b5;}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>autoclip — ブラウザレンダ実データテスト</h1>
+    <p style="color:#9aa7b5;font-size:13px">backend の実 EDL/project/src.mp4 を使い、ブラウザ(WebCodecs)で trim+字幕焼き+9:16 のmp4を生成する。</p>
+    <div class="panel">
+      <label>session <input id="sid" value="56345" style="width:80px" /></label>
+      <label>member <input id="member" value="古川あおい" style="width:140px" /></label>
+      <label>秒数上限 <input id="limit" type="number" value="20" /></label>
+      <button id="run">ブラウザでレンダ</button>
+      <p id="result" style="margin-top:12px">—</p>
+      <a id="download" class="dl" href="#">▼ mp4 をダウンロード</a>
+      <video id="player" controls></video>
+    </div>
+    <div id="log"></div>
+  </div>
+  <script type="module" src="/src/render/test-harness.ts"></script>
+</body>
+</html>

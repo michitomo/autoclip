@@ -1,0 +1,10 @@
+# 生成するクリップの指定リスト。GitHub Actions がこれを読んで事前生成する。
+# session_id 直指定、または date + committee で指定。
+- session_id: "56345"
+  member: 古川あおい
+- session_id: "56351"
+  member: 高山聡史
+- session_id: "56342"
+  member: 河合道雄
+- session_id: "56338"
+  member: 峰島侑也

@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>autoclip — WebCodecs レンダ PoC</title>
+  <style>
+    :root{--bg:#0f1419;--panel:#161d25;--line:#28333f;--text:#e4e8ee;--dim:#9aa7b5;--mint:#4ec8a0;--amber:#f2b441;}
+    *{box-sizing:border-box;}
+    body{margin:0;background:var(--bg);color:var(--text);font:15px/1.6 system-ui,"Hiragino Sans",sans-serif;}
+    .wrap{max-width:880px;margin:0 auto;padding:32px 20px 80px;}
+    h1{font-size:22px;margin:0 0 4px;}
+    .sub{color:var(--dim);font-size:13px;margin:0 0 24px;}
+    .panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-bottom:16px;}
+    .row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;}
+    label{font-size:13px;color:var(--dim);display:inline-flex;gap:6px;align-items:center;}
+    input[type=number]{width:64px;background:#0d1116;border:1px solid var(--line);color:var(--text);border-radius:7px;padding:6px 8px;font:inherit;}
+    button{background:var(--mint);color:#06231b;border:none;border-radius:8px;padding:9px 16px;font:600 14px system-ui;cursor:pointer;}
+    button:hover{filter:brightness(1.08);}
+    .filebtn{display:inline-block;background:#1d2731;color:var(--text);border:1px solid var(--line);border-radius:8px;padding:9px 16px;cursor:pointer;font-size:14px;}
+    .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:8px;}
+    .stat{background:#0d1116;border:1px solid var(--line);border-radius:8px;padding:10px 12px;}
+    .stat .k{font-size:11px;color:var(--dim);font-family:ui-monospace,monospace;letter-spacing:.04em;}
+    .stat .v{font-size:20px;font-weight:700;font-family:ui-monospace,monospace;color:var(--mint);}
+    #result{font-size:13.5px;color:var(--text);min-height:1.4em;}
+    #log{white-space:pre-wrap;font:12px/1.5 ui-monospace,monospace;color:var(--dim);background:#0b0e12;border:1px solid var(--line);border-radius:8px;padding:12px;max-height:200px;overflow:auto;margin-top:12px;}
+    video{display:none;max-width:280px;border-radius:10px;background:#000;margin-top:14px;}
+    a.dl{display:none;margin:14px 0 0 12px;color:var(--mint);}
+    .hint{font-size:12px;color:var(--dim);margin-top:6px;}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>autoclip — WebCodecs レンダ PoC</h1>
+    <p class="sub">ブラウザだけで decode → Canvas(字幕焼き) → encode → mp4。速度がネイティブ並みか・字幕が出るかを確認する。</p>
+
+    <div class="panel">
+      <div class="row">
+        <label>秒数 <input id="secs" type="number" value="10" min="1" max="60" /></label>
+        <label>fps <input id="fps" type="number" value="30" min="10" max="60" /></label>
+        <button id="runSynthetic">合成モードで計測</button>
+        <label class="filebtn">mp4を選んで焼く<input id="file" type="file" accept="video/mp4,video/*" hidden /></label>
+      </div>
+      <p class="hint">合成モード=外部ファイル不要でエンコード速度を純粋計測。ファイルモード=実動画を9:16字幕焼きで再エンコード。</p>
+      <div class="stats">
+        <div class="stat"><div class="k">ENCODE FPS</div><div class="v" id="fps">–</div></div>
+        <div class="stat"><div class="k">PROGRESS</div><div class="v" id="progress" style="font-size:14px;color:var(--text)">–</div></div>
+      </div>
+      <p id="result" style="margin-top:12px"></p>
+      <a id="download" class="dl" href="#">▼ 書き出したmp4をダウンロード</a>
+      <video id="player" controls></video>
+    </div>
+
+    <div id="log"></div>
+  </div>
+  <script type="module" src="/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+{
+  "name": "autoclip-webcodecs-poc",
+  "private": true,
+  "type": "module",
+  "scripts": { "dev": "vite", "build": "vite build" },
+  "dependencies": { "mediabunny": "^1.49.0" },
+  "devDependencies": { "vite": "^8.0.12" }
+}

@@ -1,0 +1,233 @@
+{
+  "clips": [
+    {
+      "id": "56345_古川あおい",
+      "session_id": "56345",
+      "member": "古川あおい",
+      "affiliation": "チームみらい",
+      "committee": "厚生労働委員会",
+      "date": "2026-06-19",
+      "title": "国保システム｜発注管理のガバナンス",
+      "n_topics": 8,
+      "topics": [
+        {
+          "index": 0,
+          "label": "国保納付金算定システムの誤り",
+          "question_speaker": "古川あおい",
+          "answer_speakers": [
+            "狭間保健"
+          ]
+        },
+        {
+          "index": 1,
+          "label": "再発防止策の具体性への疑問",
+          "question_speaker": "古川あおい",
+          "answer_speakers": [
+            "狭間保健"
+          ]
+        },
+        {
+          "index": 2,
+          "label": "国保連合会のシステム関係経費の質問",
+          "question_speaker": "古川あおい",
+          "answer_speakers": [
+            "狭間保健"
+          ]
+        },
+        {
+          "index": 3,
+          "label": "発注の効率性と透明性確保への注視",
+          "question_speaker": "古川あおい",
+          "answer_speakers": [
+            "狭間保健"
+          ]
+        },
+        {
+          "index": 4,
+          "label": "体制整備とリソース増強の要望",
+          "question_speaker": "古川あおい",
+          "answer_speakers": [
+            "森審議官"
+          ]
+        },
+        {
+          "index": 5,
+          "label": "データの品質に関する質疑",
+          "question_speaker": "古川あおい",
+          "answer_speakers": [
+            "森審議官"
+          ]
+        },
+        {
+          "index": 6,
+          "label": "標準化人材とインセンティブの質問",
+          "question_speaker": "古川あおい",
+          "answer_speakers": [
+            "森審議官"
+          ]
+        },
+        {
+          "index": 7,
+          "label": "政府答弁に対する謝辞",
+          "question_speaker": "古川あおい",
+          "answer_speakers": []
+        }
+      ]
+    },
+    {
+      "id": "56351_高山聡史",
+      "session_id": "56351",
+      "member": "高山聡史",
+      "affiliation": "チームみらい",
+      "committee": "内閣委員会",
+      "date": "2026-06-24",
+      "title": "科学技術イノベーション｜活性化法案への賛成討論",
+      "n_topics": 1,
+      "topics": [
+        {
+          "index": 0,
+          "label": "法案の原案及び修正案への賛成",
+          "question_speaker": "高山聡史",
+          "answer_speakers": []
+        }
+      ]
+    },
+    {
+      "id": "56342_河合道雄",
+      "session_id": "56342",
+      "member": "河合道雄",
+      "affiliation": "チームみらい",
+      "committee": "経済産業委員会",
+      "date": "2026-06-19",
+      "title": "電力需給の見通し｜と電源系統整備への活用",
+      "n_topics": 5,
+      "topics": [
+        {
+          "index": 0,
+          "label": "電気事業法改正案に関する質問",
+          "question_speaker": "河合道雄",
+          "answer_speakers": [
+            "事業"
+          ]
+        },
+        {
+          "index": 1,
+          "label": "中短期の電力需給安定化の方針",
+          "question_speaker": "河合道雄",
+          "answer_speakers": [
+            "赤澤",
+            "事業"
+          ]
+        },
+        {
+          "index": 2,
+          "label": "大臣への謝辞",
+          "question_speaker": "河合道雄",
+          "answer_speakers": [
+            "赤澤",
+            "事業",
+            "井本保安",
+            "湯本保安"
+          ]
+        },
+        {
+          "index": 3,
+          "label": "設備投資へのインセンティブ設計",
+          "question_speaker": "河合道雄",
+          "answer_speakers": [
+            "赤澤"
+          ]
+        },
+        {
+          "index": 4,
+          "label": "質疑者の指名",
+          "question_speaker": "山岡達丸",
+          "answer_speakers": []
+        }
+      ]
+    },
+    {
+      "id": "56338_峰島侑也",
+      "session_id": "56338",
+      "member": "峰島侑也",
+      "affiliation": "チームみらい",
+      "committee": "政治改革特別委員会",
+      "date": "2026-06-18",
+      "title": "企業団体献金の｜全面禁止と法案提出の意図",
+      "n_topics": 9,
+      "topics": [
+        {
+          "index": 0,
+          "label": "現行法案の内容への批判",
+          "question_speaker": "峰島侑也",
+          "answer_speakers": [
+            "峰島侑也"
+          ]
+        },
+        {
+          "index": 1,
+          "label": "2022年の政治資金パーティー問題",
+          "question_speaker": "峰島侑也",
+          "answer_speakers": [
+            "峰島侑也"
+          ]
+        },
+        {
+          "index": 2,
+          "label": "学識経験者への意見聴取の是非",
+          "question_speaker": "峰島侑也",
+          "answer_speakers": [
+            "峰島侑也"
+          ]
+        },
+        {
+          "index": 3,
+          "label": "学識経験者の検討内容への問い",
+          "question_speaker": "峰島侑也",
+          "answer_speakers": [
+            "峰島侑也"
+          ]
+        },
+        {
+          "index": 4,
+          "label": "献金企業名の公表に関する条文",
+          "question_speaker": "峰島侑也",
+          "answer_speakers": [
+            "峰島侑也"
+          ]
+        },
+        {
+          "index": 5,
+          "label": "1000万円超の献金名公表の現状",
+          "question_speaker": "峰島侑也",
+          "answer_speakers": [
+            "峰島侑也"
+          ]
+        },
+        {
+          "index": 6,
+          "label": "有識者会議の時間稼ぎへの疑念",
+          "question_speaker": "峰島侑也",
+          "answer_speakers": [
+            "峰島侑也"
+          ]
+        },
+        {
+          "index": 7,
+          "label": "各政党による透明性向上の実践要求",
+          "question_speaker": "峰島侑也",
+          "answer_speakers": [
+            "今岡植"
+          ]
+        },
+        {
+          "index": 8,
+          "label": "自民党の自発的な公開への期待",
+          "question_speaker": "峰島侑也",
+          "answer_speakers": []
+        }
+      ]
+    }
+  ],
+  "count": 4
+}
