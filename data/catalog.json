@@ -1,6 +1,143 @@
 {
   "clips": [
     {
+      "id": "56357_峰島侑也",
+      "session_id": "56357",
+      "member": "峰島侑也",
+      "affiliation": "チームみらい",
+      "committee": "政治改革特別委員会",
+      "date": "2026-06-25",
+      "title": "ネット上の選挙情報｜実効性確保と指針策定",
+      "n_topics": 1,
+      "topics": [
+        {
+          "index": 0,
+          "label": "公選法改正案第27条の2への質問",
+          "question_speaker": "峰島侑也",
+          "answer_speakers": []
+        }
+      ]
+    },
+    {
+      "id": "56356_古川あおい",
+      "session_id": "56356",
+      "member": "古川あおい",
+      "affiliation": "チームみらい",
+      "committee": "憲法審査会",
+      "date": "2026-06-25",
+      "title": "参院選の合区解消｜と投票価値の平等",
+      "n_topics": 1,
+      "topics": [
+        {
+          "index": 0,
+          "label": "参議院選挙の合区問題",
+          "question_speaker": "古川あおい",
+          "answer_speakers": []
+        }
+      ]
+    },
+    {
+      "id": "56355_武藤かず子",
+      "session_id": "56355",
+      "member": "武藤かず子",
+      "affiliation": "チームみらい",
+      "committee": "総務委員会",
+      "date": "2026-06-25",
+      "title": "AI時代の｜公共放送のあり方",
+      "n_topics": 5,
+      "topics": [
+        {
+          "index": 0,
+          "label": "公共放送の存在意義の向上",
+          "question_speaker": "武藤かず子",
+          "answer_speakers": [
+            "井上樹彦"
+          ]
+        },
+        {
+          "index": 1,
+          "label": "ARDのコンテンツ定義",
+          "question_speaker": "武藤かず子",
+          "answer_speakers": [
+            "林芳正"
+          ]
+        },
+        {
+          "index": 2,
+          "label": "AI活用の成果と評価の質疑",
+          "question_speaker": "武藤かず子",
+          "answer_speakers": [
+            "井上樹彦"
+          ]
+        },
+        {
+          "index": 3,
+          "label": "投資規模とビジョン実現の整合性",
+          "question_speaker": "武藤かず子",
+          "answer_speakers": [
+            "林芳正"
+          ]
+        },
+        {
+          "index": 4,
+          "label": "著作権と個人情報出力の制度的課題",
+          "question_speaker": "武藤かず子",
+          "answer_speakers": []
+        }
+      ]
+    },
+    {
+      "id": "56354_高山聡史",
+      "session_id": "56354",
+      "member": "高山聡史",
+      "affiliation": "チームみらい",
+      "committee": "内閣委員会",
+      "date": "2026-06-25",
+      "title": "国旗損壊罪の｜構成要件と施行準備",
+      "n_topics": 5,
+      "topics": [
+        {
+          "index": 0,
+          "label": "罪の正義の判断基準の質問",
+          "question_speaker": "高山聡史",
+          "answer_speakers": [
+            "桃地"
+          ]
+        },
+        {
+          "index": 1,
+          "label": "施行準備に関する質問",
+          "question_speaker": "高山聡史",
+          "answer_speakers": [
+            "江藤隆之",
+            "野村修也"
+          ]
+        },
+        {
+          "index": 2,
+          "label": "国旗損壊規制の立法範囲に関する確認",
+          "question_speaker": "高山聡史",
+          "answer_speakers": [
+            "志田陽子"
+          ]
+        },
+        {
+          "index": 3,
+          "label": "国旗損壊の社会的害悪と立法事実",
+          "question_speaker": "高山聡史",
+          "answer_speakers": [
+            "野村修也"
+          ]
+        },
+        {
+          "index": 4,
+          "label": "質疑の終了宣言",
+          "question_speaker": "高山聡史",
+          "answer_speakers": []
+        }
+      ]
+    },
+    {
       "id": "56351_高山聡史",
       "session_id": "56351",
       "member": "高山聡史",
@@ -347,5 +484,5 @@
       ]
     }
   ],
-  "count": 5
+  "count": 9
 }
