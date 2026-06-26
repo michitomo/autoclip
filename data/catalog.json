@@ -59,6 +59,104 @@
       ]
     },
     {
+      "id": "56358_高山聡史",
+      "session_id": "56358",
+      "member": "高山聡史",
+      "affiliation": "チームみらい",
+      "committee": "内閣委員会",
+      "date": "2026-06-26",
+      "title": "国旗損壊罪の｜罰則運用の適正化",
+      "n_topics": 11,
+      "topics": [
+        {
+          "index": 0,
+          "label": "処罰対象の判断基準に関する確認",
+          "question_speaker": "高山聡史",
+          "answer_speakers": [
+            "平沼君"
+          ]
+        },
+        {
+          "index": 1,
+          "label": "罪刑法定主義と予見可能性の重要性",
+          "question_speaker": "高山聡史",
+          "answer_speakers": [
+            "平沼君"
+          ]
+        },
+        {
+          "index": 2,
+          "label": "国民への周知と予見可能性",
+          "question_speaker": "高山聡史",
+          "answer_speakers": [
+            "平沼君"
+          ]
+        },
+        {
+          "index": 3,
+          "label": "表現の自由に関する質疑",
+          "question_speaker": "高山聡史",
+          "answer_speakers": [
+            "平沼君"
+          ]
+        },
+        {
+          "index": 4,
+          "label": "芸術的表現に関する質疑",
+          "question_speaker": "高山聡史",
+          "answer_speakers": [
+            "平沼君"
+          ]
+        },
+        {
+          "index": 5,
+          "label": "協力への謝辞",
+          "question_speaker": "高山聡史",
+          "answer_speakers": [
+            "平沼君"
+          ]
+        },
+        {
+          "index": 6,
+          "label": "処罰基準と事例の周知方法に関する質問",
+          "question_speaker": "高山聡史",
+          "answer_speakers": [
+            "吉田審議官"
+          ]
+        },
+        {
+          "index": 7,
+          "label": "答弁への謝辞",
+          "question_speaker": "高山聡史",
+          "answer_speakers": [
+            "吉田審議官"
+          ]
+        },
+        {
+          "index": 8,
+          "label": "警察官への周知・教育内容の質問",
+          "question_speaker": "高山聡史",
+          "answer_speakers": [
+            "茂松刑事局長"
+          ]
+        },
+        {
+          "index": 9,
+          "label": "答弁への謝辞",
+          "question_speaker": "高山聡史",
+          "answer_speakers": [
+            "茂松刑事局長"
+          ]
+        },
+        {
+          "index": 10,
+          "label": "国民の不安解消に向けた運用要望",
+          "question_speaker": "高山聡史",
+          "answer_speakers": []
+        }
+      ]
+    },
+    {
       "id": "56357_峰島侑也",
       "session_id": "56357",
       "member": "峰島侑也",
@@ -542,5 +640,5 @@
       ]
     }
   ],
-  "count": 10
+  "count": 11
 }
