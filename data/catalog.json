@@ -1,6 +1,64 @@
 {
   "clips": [
     {
+      "id": "56359_古川あおい",
+      "session_id": "56359",
+      "member": "古川あおい",
+      "affiliation": "チームみらい",
+      "committee": "厚生労働委員会",
+      "date": "2026-06-26",
+      "title": "RSウイルス抗体制剤の｜接種記録管理",
+      "n_topics": 6,
+      "topics": [
+        {
+          "index": 0,
+          "label": "出生届前の接種記録の保存方法",
+          "question_speaker": "古川あおい",
+          "answer_speakers": [
+            "感染症対策部長"
+          ]
+        },
+        {
+          "index": 1,
+          "label": "母子免疫ワクチンに関する質問",
+          "question_speaker": "古川あおい",
+          "answer_speakers": [
+            "感染症対策部長"
+          ]
+        },
+        {
+          "index": 2,
+          "label": "母子記録の転記が任意か確認",
+          "question_speaker": "古川あおい",
+          "answer_speakers": [
+            "感染症対策部長"
+          ]
+        },
+        {
+          "index": 3,
+          "label": "現段階での区別可否の確認",
+          "question_speaker": "古川あおい",
+          "answer_speakers": [
+            "感染症対策部長"
+          ]
+        },
+        {
+          "index": 4,
+          "label": "抗体制剤の定期接種化要望",
+          "question_speaker": "古川あおい",
+          "answer_speakers": [
+            "上野"
+          ]
+        },
+        {
+          "index": 5,
+          "label": "予算・人員確保の要望",
+          "question_speaker": "古川あおい",
+          "answer_speakers": []
+        }
+      ]
+    },
+    {
       "id": "56357_峰島侑也",
       "session_id": "56357",
       "member": "峰島侑也",
@@ -484,5 +542,5 @@
       ]
     }
   ],
-  "count": 9
+  "count": 10
 }
