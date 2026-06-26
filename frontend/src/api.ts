@@ -196,7 +196,7 @@ export const STEP_LABELS: Record<string, string> = {
   transcribing: '文字起こし',
   correcting: '内容を整える（議員名・句読点）',
   titling: 'タイトルを作る',
-  jetcut: '不要な間を除去',
+  jetcut: '不要な間・言い淀み・言い間違いを除去',
   rendering: '動画を準備',
   done: '完了',
   error: 'エラー',

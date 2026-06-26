@@ -198,6 +198,8 @@ class ClipRequest(BaseModel):
     subtitle_style: str = "karaoke"
     title: str | None = None  # 指定時は LLM 生成せずこれを使う
     preview_seconds: float | None = None
+    remove_disfluencies: bool = True  # 言い間違い・言い淀みを LLM 検出して JetCut
+    dead_air_gap: float | None = None  # 語間無音の除去しきい値 秒 (None=サーバ既定の積極値)
 
 
 def _clip_filename(session_id: str, member: str) -> Path:
@@ -208,7 +210,7 @@ def _run_clip(req: ClipRequest):
     out_dir = MEDIA_DIR / req.session_id
 
     def _job(progress):
-        result = generate_clip(
+        kwargs: dict[str, Any] = dict(
             session_id=req.session_id,
             member=req.member,
             out_dir=out_dir,
@@ -216,8 +218,12 @@ def _run_clip(req: ClipRequest):
             subtitle_style=req.subtitle_style,
             title_override=req.title,
             preview_seconds=req.preview_seconds,
+            remove_disfluencies=req.remove_disfluencies,
             progress=progress,
         )
+        if req.dead_air_gap is not None:
+            kwargs["dead_air_gap"] = req.dead_air_gap
+        result = generate_clip(**kwargs)
         # 全体レンダは廃止: 生成完了 = 編集可能 (project.json 準備済み)。
         # プレビューはトピック単位でオンデマンド (/preview-topic)。
         n_topics = 0

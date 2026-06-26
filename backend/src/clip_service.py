@@ -23,8 +23,8 @@ import functools
 import logging
 import subprocess
 import sys
-from concurrent.futures import ThreadPoolExecutor
 from collections.abc import Callable
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -55,6 +55,7 @@ from src.speaker_lookup import build_lookup, find_by_name
 from src.transcriber import strip_prompt_echo, transcribe_segment
 from src.transcript_corrector import correct_transcript
 from src.video.align import align_corrected_to_words
+from src.video.disfluency import detect_disfluency_spans
 from src.video.downloader import (
     download_segment_range,
     download_source_video,
@@ -88,6 +89,21 @@ _FFPROBE_TIMEOUT = 30
 # 議員区間の冒頭取りこぼし防止: start より手前から切り出す秒数。
 # 衆議院TV の time= アンカーが発話開始より遅れることへの対策。
 LEAD_PAD = 1.2
+
+# JetCut の dead-air しきい値 (秒)。既定を「積極的」に倒した値 (ユーザー要望:
+# 短めの間も詰める)。silence_pad(0.20)+merge_gap(0.25) により実効カットは ~0.65s 超の
+# 間からで、文中の自然な息継ぎは pad で残るため極端な詰めにはならない。生成時/API で
+# 上書き可能 (大きくすると保守的、小さくするとより積極的)。
+AGGRESSIVE_DEAD_AIR_GAP = 0.6
+
+
+def _detect_disfluency_safe(words: list[WhisperWord]) -> list[tuple[float, float]]:
+    """言い間違い・言い淀みスパン検出を例外安全に行う (失敗時 [] = dead-air のみ)。"""
+    try:
+        return detect_disfluency_spans(words)
+    except Exception as e:  # noqa: BLE001 - 検出失敗でクリップ生成は止めない
+        logger.warning("Disfluency detection failed (dead-air only): %s", e)
+        return []
 
 
 @dataclass
@@ -227,6 +243,8 @@ def generate_clip(
     subtitle_style: str = "karaoke",
     make_title: bool = True,
     title_override: str | None = None,
+    remove_disfluencies: bool = True,
+    dead_air_gap: float = AGGRESSIVE_DEAD_AIR_GAP,
     progress: Callable[[str], None] | None = None,
 ) -> ClipResult:
     """1 議員ぶんの JetCut ハイライトクリップを生成する (フル質疑区間対象)。
@@ -249,6 +267,8 @@ def generate_clip(
         subtitle_style: "karaoke" (3行全文表示・発話語ハイライト, 既定) /
             "rolling" (shusantv 風積み上げ) / "plain" (通常文節キャプション)。
         make_title: True で質疑要旨タイトルを LLM 生成し冒頭 2 秒上部に表示。
+        remove_disfluencies: True で言い間違い・言い淀みを LLM 検出し映像から JetCut。
+        dead_air_gap: 語間無音の除去しきい値 (秒)。小さいほど積極的に間を詰める。
 
     Returns:
         ClipResult
@@ -352,6 +372,19 @@ def generate_clip(
     # 校正・話者タグに渡す発言者リスト (member 先頭 + 全員 + 抽出答弁者)
     all_speakers_ext = [local_speaker, *detail.speakers, *answerers]
 
+    # 4.3 言い間違い・言い淀みの検出 (LLM)。**補正前 (align 前) の raw 語列** に対して
+    # 行う — 言い直しの「言い直す前の誤った部分」は校正後テキストでは既に消えるため。
+    # raw 語の時刻は member-WAV 時間で align 後と同一タイムラインなので、得たスパンを
+    # そのまま build_edl(drop_spans=) に渡せば映像から切れる。校正と独立なので並列に
+    # 走らせ、JetCut 直前で回収する (直列だと校正待ちに検出待ちが上乗せされる)。
+    disfluency_spans: list[tuple[float, float]] = []
+    disf_ex: ThreadPoolExecutor | None = None
+    disf_fut = None
+    if remove_disfluencies:
+        raw_words_for_disfluency = list(words)
+        disf_ex = ThreadPoolExecutor(max_workers=1)
+        disf_fut = disf_ex.submit(_detect_disfluency_safe, raw_words_for_disfluency)
+
     # 4.5 LLM 校正 (議員名/政党名の誤認識修正 + 句読点補完) → word に再アライン。
     # corrector は segment text のみ直すため、補正文を word タイムスタンプへ
     # 文字レベルでアラインして字幕に反映する (kokkaidb の名前修正を活かす)。
@@ -387,12 +420,26 @@ def generate_clip(
                 "Transcript correction failed (using raw words): %s", e
             )
 
-    # 5. JetCut → EDL (無音=dead air 除去のみ)。LLM に依存しないので並列段の前に。
-    # フィラー除去は校正LLM が文脈を見て実施済み。JetCut の素朴な語マッチ除去は
-    # 「そのため」の「その」のような実語を誤爆するため OFF。
+    # 5. JetCut → EDL。カット対象:
+    #   (a) dead air: 語間無音 > dead_air_gap (既定は積極的な 0.6s)
+    #   (b) フィラー: _mark_filler_words (曖昧フィラーは glue ガードで誤爆抑制)
+    #   (c) 言い間違い・言い淀み: 上で並列起動した LLM 検出スパン (drop_spans)
+    # 検出スパンを回収してから build_edl に渡す (raw 時刻 = align 後と同一 member-WAV)。
+    if disf_fut is not None:
+        disfluency_spans = disf_fut.result()
+        if disf_ex is not None:
+            disf_ex.shutdown(wait=False)
     _p("jetcut")
-    logger.info("=== JetCut (dead-air only) ===")
-    edl = build_edl(words, remove_fillers=False)
+    logger.info(
+        "=== JetCut (dead-air %.2fs + fillers + %d disfluency spans) ===",
+        dead_air_gap, len(disfluency_spans),
+    )
+    edl = build_edl(
+        words,
+        dead_air_gap=dead_air_gap,
+        remove_fillers=True,
+        drop_spans=disfluency_spans,
+    )
 
     # 4.7〜5.1 校正後の独立した LLM 段を **並列実行** (直列だと文節+タイトル+Q&A で
     # 24秒かかる)。3 段とも corrected_text/words のみに依存し互いに独立:
@@ -1183,6 +1230,15 @@ def main() -> None:
         help="LLM 文節分割をスキップし句読点ベースの改行にする",
     )
     parser.add_argument(
+        "--no-disfluency", action="store_true",
+        help="言い間違い・言い淀みの LLM 検出カットをスキップ (dead-air+フィラーのみ)",
+    )
+    parser.add_argument(
+        "--dead-air-gap", type=float, default=AGGRESSIVE_DEAD_AIR_GAP,
+        help=f"語間無音の除去しきい値 秒 (既定 {AGGRESSIVE_DEAD_AIR_GAP}=積極的。"
+             "大きいほど保守的)",
+    )
+    parser.add_argument(
         "--no-reuse-source", action="store_true",
         help="--full-source 時、既存 source.mp4 を無視して再ダウンロードする",
     )
@@ -1216,6 +1272,8 @@ def main() -> None:
             preview_seconds=args.preview_seconds,
             subtitle_style=args.subtitle_style,
             make_title=not args.no_title,
+            remove_disfluencies=not args.no_disfluency,
+            dead_air_gap=args.dead_air_gap,
         )
     except Exception as e:
         logger.error("Clip generation failed: %s", e)

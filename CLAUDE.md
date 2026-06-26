@@ -2,7 +2,7 @@
 
 autoclip: generate vertical social clips of a specific Diet member's questioning from
 衆議院TV (shugiintv.go.jp) committee video. Flow: date→committee→member→(topic) →
-burned-in subtitles + JetCut (filler/dead-air removal) + Q&A-hierarchy editing.
+burned-in subtitles + JetCut (言い間違い/言い淀み/dead-air removal) + Q&A-hierarchy editing.
 Human-review required (don't cut political speech out of context).
 Legal: users must check 衆議院TV's terms themselves; show source attribution on
 all output (links to shugiintv.go.jp). The project warrants no usage license.
@@ -69,6 +69,14 @@ no net). Frontend typecheck: `cd frontend && npm run build`.
    OpenRouter ASR returns no timestamps). `ASR_PROVIDER=groq` switches. LLM = OpenRouter,
    default `google/gemma-4-26b-a4b-it` (env `AUTOCLIP_LLM_MODEL`). Member WAV extracted
    WITHOUT silenceremove (else word times desync from video).
+8. **言い間違い/言い淀みは映像カット、校正は字幕のみ。** 校正LLM (`transcript_corrector`)
+   はテキストだけ直し keep_ranges を切らない → 「えー」等は字幕から消えても映像に残る。
+   `disfluency.detect_disfluency_spans` は **補正前 (align 前) の raw 語列** に対し LLM で
+   検出する (言い直しの「前」部分は補正後テキストでは消えるため)。raw 語の時刻 = align 後
+   と同一 member-WAV なので、得たスパンを `build_edl(drop_spans=)` に渡せば映像から切れる。
+   `clip_service` は検出を校正と**並列**起動し JetCut 直前で回収。dead-air 既定は積極値
+   `AGGRESSIVE_DEAD_AIR_GAP=0.6` (生成時/API `dead_air_gap`、`remove_disfluencies` で制御)。
+   人手レビュー前提なので全カットは編集UIで戻せる (初回は全 keep_range 有効)。
 
 ## Key files
 - `src/clip_service.py` — orchestration + CLI: `generate_clip`, `rerender_project`,
@@ -77,7 +85,10 @@ no net). Frontend typecheck: `cd frontend && npm run build`.
 - `src/video/subtitles.py` — ASS: `build_ass_karaoke/rolling/from_captions`, title panel
   (`_title_event`/`_build_title_layout`), banner (`_banner_event`), color (`_role_colour_at`).
 - `src/video/renderer.py` — `render_clip` (trim+concat).
-- `src/video/jetcut.py` — `build_edl` (→ keep_ranges + kept_words).
+- `src/video/jetcut.py` — `build_edl` (→ keep_ranges + kept_words). dead-air + filler
+  (`_mark_filler_words`, 曖昧フィラーは glue ガード) + `drop_spans` 区間減算 (`_subtract_spans`).
+- `src/video/disfluency.py` — `detect_disfluency_spans` (LLM が ⟪ ⟫ で言い間違い/言い淀みを
+  印付け → member-WAV 時刻スパン)。`build_edl(drop_spans=)` に渡して映像から切除。
 - `src/video/qaseg.py` — `segment_qa`, `build_qa_tree`, `extract_answerers`.
 - `src/video/qa_annotate.py` — LLM summary + importance + topic labels.
 - `src/models.py` — `ClipProject`, `QATree/QATopic/QATurn/QASentence`,
