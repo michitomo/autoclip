@@ -1,6 +1,72 @@
 {
   "clips": [
     {
+      "id": "56367_横田光弘",
+      "session_id": "56367",
+      "member": "横田光弘",
+      "affiliation": "日本維新の会",
+      "committee": "地域・こども・デジタル特別委員会",
+      "date": "2026-07-01",
+      "title": "首都圏の大規模災害時における｜国家機能の継続性確保",
+      "n_topics": 7,
+      "topics": [
+        {
+          "index": 0,
+          "label": "富士山噴火の予測",
+          "question_speaker": "横田光弘",
+          "answer_speakers": [
+            "岩谷良平"
+          ]
+        },
+        {
+          "index": 1,
+          "label": "法案第14条の業務継続施策",
+          "question_speaker": "横田光弘",
+          "answer_speakers": [
+            "岩谷良平"
+          ]
+        },
+        {
+          "index": 2,
+          "label": "BCPの実効性確保に関する課題",
+          "question_speaker": "横田光弘",
+          "answer_speakers": [
+            "岩谷良平"
+          ]
+        },
+        {
+          "index": 3,
+          "label": "国と地方の協力体制と訓練の重要性",
+          "question_speaker": "横田光弘",
+          "answer_speakers": [
+            "岩谷良平"
+          ]
+        },
+        {
+          "index": 4,
+          "label": "金融特区と福祉都市の機能融合",
+          "question_speaker": "横田光弘",
+          "answer_speakers": [
+            "岩谷良平"
+          ]
+        },
+        {
+          "index": 5,
+          "label": "福祉都市構想実現への決意表明要求",
+          "question_speaker": "横田光弘",
+          "answer_speakers": [
+            "岩谷良平"
+          ]
+        },
+        {
+          "index": 6,
+          "label": "質疑終了の宣言",
+          "question_speaker": "横田光弘",
+          "answer_speakers": []
+        }
+      ]
+    },
+    {
       "id": "56359_古川あおい",
       "session_id": "56359",
       "member": "古川あおい",
@@ -640,5 +706,5 @@
       ]
     }
   ],
-  "count": 11
+  "count": 12
 }
