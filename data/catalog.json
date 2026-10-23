@@ -1,6 +1,175 @@
 {
   "clips": [
     {
+      "id": "56473_須田英太郎",
+      "session_id": "56473",
+      "member": "須田英太郎",
+      "affiliation": "チームみらい",
+      "committee": "国土交通委員会",
+      "date": "2026-10-23",
+      "title": "家族の送迎負担による｜潜在的な移動ニーズの把握",
+      "n_topics": 6,
+      "topics": [
+        {
+          "index": 0,
+          "label": "家族の送迎に関する質問の開始",
+          "question_speaker": "須田英太郎",
+          "answer_speakers": [
+            "井林辰憲"
+          ]
+        },
+        {
+          "index": 1,
+          "label": "子育て世代の鉄道利用に関する調査結果",
+          "question_speaker": "須田英太郎",
+          "answer_speakers": [
+            "井林辰憲"
+          ]
+        },
+        {
+          "index": 2,
+          "label": "公共交通の環境整備に関する質問",
+          "question_speaker": "須田英太郎",
+          "answer_speakers": [
+            "総合政策局長"
+          ]
+        },
+        {
+          "index": 3,
+          "label": "全国への普及に関する国の方針",
+          "question_speaker": "須田英太郎",
+          "answer_speakers": [
+            "総合政策局長"
+          ]
+        },
+        {
+          "index": 4,
+          "label": "移動支援策の評価対象への追加要望",
+          "question_speaker": "須田英太郎",
+          "answer_speakers": [
+            "こども家庭庁長官官房審議官"
+          ]
+        },
+        {
+          "index": 5,
+          "label": "子育てしやすい社会づくりの重要性",
+          "question_speaker": "須田英太郎",
+          "answer_speakers": []
+        }
+      ]
+    },
+    {
+      "id": "56471_宇佐美登",
+      "session_id": "56471",
+      "member": "宇佐美登",
+      "affiliation": "チームみらい",
+      "committee": "安全保障委員会",
+      "date": "2026-10-23",
+      "title": "災害派遣の増加に伴う｜部隊運用体制の維持",
+      "n_topics": 1,
+      "topics": [
+        {
+          "index": 0,
+          "label": "宇佐美議員の挨拶と中越地震の回顧",
+          "question_speaker": "宇佐美登",
+          "answer_speakers": [
+            "小泉進次郎",
+            "茂木敏充"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "56470_小林修平",
+      "session_id": "56470",
+      "member": "小林修平",
+      "affiliation": "チームみらい",
+      "committee": "経済産業委員会",
+      "date": "2026-10-23",
+      "title": "起業準備期間における｜負担軽減策の検討",
+      "n_topics": 10,
+      "topics": [
+        {
+          "index": 0,
+          "label": "質問する3つのテーマ",
+          "question_speaker": "小林修平",
+          "answer_speakers": [
+            "長野"
+          ]
+        },
+        {
+          "index": 1,
+          "label": "スタートアップ5カ年計画の現状確認",
+          "question_speaker": "小林修平",
+          "answer_speakers": [
+            "本部事務局"
+          ]
+        },
+        {
+          "index": 2,
+          "label": "国内成長資金不足による海外流出懸念",
+          "question_speaker": "小林修平",
+          "answer_speakers": [
+            "深澤"
+          ]
+        },
+        {
+          "index": 3,
+          "label": "計算資源とデータセンターに関する質問",
+          "question_speaker": "小林修平",
+          "answer_speakers": [
+            "和田"
+          ]
+        },
+        {
+          "index": 4,
+          "label": "系統接続の空押さえ問題への質問",
+          "question_speaker": "小林修平",
+          "answer_speakers": [
+            "事業"
+          ]
+        },
+        {
+          "index": 5,
+          "label": "蓄電池設置に関する消防法の課題",
+          "question_speaker": "小林修平",
+          "answer_speakers": [
+            "渡辺"
+          ]
+        },
+        {
+          "index": 6,
+          "label": "建築基準法上の課題と検討状況の質問",
+          "question_speaker": "小林修平",
+          "answer_speakers": [
+            "豊島"
+          ]
+        },
+        {
+          "index": 7,
+          "label": "サイバー攻撃対策の質問",
+          "question_speaker": "小林修平",
+          "answer_speakers": [
+            "津村"
+          ]
+        },
+        {
+          "index": 8,
+          "label": "SaaSやクラウドの脆弱性",
+          "question_speaker": "小林修平",
+          "answer_speakers": [
+            "笠原"
+          ]
+        },
+        {
+          "index": 9,
+          "label": "本日の質疑項目の整理",
+          "question_speaker": "小林修平",
+          "answer_speakers": []
+        }
+      ]
+    },
+    {
       "id": "56467_古川あおい",
       "session_id": "56467",
       "member": "古川あおい",
@@ -804,5 +973,5 @@
       ]
     }
   ],
-  "count": 13
+  "count": 16
 }
