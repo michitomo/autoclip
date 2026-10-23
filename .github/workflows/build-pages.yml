@@ -23,14 +23,24 @@ permissions:
   pages: write
   id-token: write
 
-# 同時実行は1本に (デプロイ衝突を避ける)
+# 同時実行は原則1本に (デプロイ衝突を避ける)。
+# cron とそれ以外 (push / dispatch = ASR/LLM 生成を含み得る) でグループを分ける:
+#   - cron: 古い cron run を新しい cron run が置き換える (cancel-in-progress)。
+#     先行 run が固まっても次の毎時 run が詰まらない。
+#     (2026-08-08 の run #925 は deploy job が runner 未割当のまま30日放置され、
+#      cancel-in-progress:false の単一グループだったため後続の毎時 cron が約1か月
+#      すべて cancelled になり、スクレイプが止まった)
+#   - それ以外: 直列で待つだけ。生成途中の run は cron に潰されない。
+# 万一 cron と生成 run のデプロイが重なって片方が失敗しても、次の毎時 cron が data/ を
+# そのままデプロイし直すので自己修復する。
 concurrency:
-  group: pages
-  cancel-in-progress: false
+  group: pages-${{ github.event_name == 'schedule' && 'cron' || 'build' }}
+  cancel-in-progress: ${{ github.event_name == 'schedule' }}
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
 
@@ -81,6 +91,23 @@ jobs:
             git push origin HEAD:main || echo "push 失敗 (続行)"
           fi
 
+      # 公開リポは 60 日間活動 (コミット等) が無いと GitHub が schedule を自動停止する
+      # (workflow state = disabled_inactivity。2026-09-01 に実際に停止した)。
+      # data/ のコミットは新規生成時にしか起きないので、最終コミットが 45 日より古ければ
+      # 空コミットで活動を作って cron を生かし続ける。
+      - name: Keepalive (schedule の自動停止を防ぐ)
+        if: github.ref == 'refs/heads/main'
+        run: |
+          last=$(git log -1 --format=%ct)
+          age_days=$(( ( $(date +%s) - last ) / 86400 ))
+          echo "最終コミットから ${age_days} 日"
+          if [ "$age_days" -ge 45 ]; then
+            git config user.name  "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git commit --allow-empty -m "chore: keepalive (schedule の自動停止防止) [skip ci]"
+            git push origin HEAD:main || echo "keepalive push 失敗 (続行)"
+          fi
+
       - name: Assemble site/data (clip JSON + corpus)
         working-directory: backend
         run: |
@@ -114,6 +141,7 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     environment:
       name: github-pages
       url: ${{ steps.deploy.outputs.page_url }}
