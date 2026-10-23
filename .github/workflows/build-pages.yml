@@ -49,7 +49,10 @@ jobs:
 
       - name: Install ffmpeg (HLS DL + member WAV 抽出に必要)
         run: |
-          sudo apt-get update
+          # runner 同梱のサードパーティ repo (packages.microsoft.com 等) が一時的に
+          # 403 を返すと apt-get update が exit 100 で落ちる (2026-10-23 発生)。
+          # ffmpeg は Ubuntu 本体 repo にあるので update の失敗は無視して続行する。
+          sudo apt-get update || echo "apt-get update に一部失敗 (続行)"
           sudo apt-get install -y ffmpeg
 
       - name: Setup Python
