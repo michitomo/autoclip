@@ -1,6 +1,104 @@
 {
   "clips": [
     {
+      "id": "56467_古川あおい",
+      "session_id": "56467",
+      "member": "古川あおい",
+      "affiliation": "チームみらい",
+      "committee": "厚生労働委員会",
+      "date": "2026-10-23",
+      "title": "社会保障の強化｜と安心への投資",
+      "n_topics": 11,
+      "topics": [
+        {
+          "index": 0,
+          "label": "厚労行政の役割への問い",
+          "question_speaker": "古川あおい",
+          "answer_speakers": [
+            "上野"
+          ]
+        },
+        {
+          "index": 1,
+          "label": "消費税支援金法案の質問",
+          "question_speaker": "古川あおい",
+          "answer_speakers": [
+            "上野"
+          ]
+        },
+        {
+          "index": 2,
+          "label": "プッシュ型給付体制の構築要求",
+          "question_speaker": "古川あおい",
+          "answer_speakers": [
+            "上野"
+          ]
+        },
+        {
+          "index": 3,
+          "label": "医療介護施設のセキュリティ質問",
+          "question_speaker": "古川あおい",
+          "answer_speakers": [
+            "上野"
+          ]
+        },
+        {
+          "index": 4,
+          "label": "参照すべきガイドラインの有無",
+          "question_speaker": "古川あおい",
+          "answer_speakers": [
+            "三浦政策統括官"
+          ]
+        },
+        {
+          "index": 5,
+          "label": "AI活用と労働の関係に関する質問",
+          "question_speaker": "古川あおい",
+          "answer_speakers": [
+            "上野"
+          ]
+        },
+        {
+          "index": 6,
+          "label": "AI利用時の情報管理と責任の所在",
+          "question_speaker": "古川あおい",
+          "answer_speakers": [
+            "三浦政策統括官"
+          ]
+        },
+        {
+          "index": 7,
+          "label": "医療AIガイドラインの公表実績",
+          "question_speaker": "古川あおい",
+          "answer_speakers": [
+            "三浦政策統括官"
+          ]
+        },
+        {
+          "index": 8,
+          "label": "PMDAの人材確保と審査強化の質問",
+          "question_speaker": "古川あおい",
+          "answer_speakers": [
+            "内山"
+          ]
+        },
+        {
+          "index": 9,
+          "label": "審議会の動画公開に関する質問",
+          "question_speaker": "古川あおい",
+          "answer_speakers": [
+            "川野"
+          ]
+        },
+        {
+          "index": 10,
+          "label": "政府のライブ配信と議事録の差異への疑問",
+          "question_speaker": "古川あおい",
+          "answer_speakers": []
+        }
+      ]
+    },
+    {
       "id": "56367_横田光弘",
       "session_id": "56367",
       "member": "横田光弘",
@@ -706,5 +804,5 @@
       ]
     }
   ],
-  "count": 12
+  "count": 13
 }
