@@ -15,8 +15,11 @@ on:
   # 毎時スクレイプ: 母集合 (corpus.json) を最新化して再デプロイ。
   # clip データは targets.yml 据え置きなので既存生成物がそのまま再ビルドされる
   # (build_site は reuse_source=True で重い再生成を避ける)。corpus だけ毎回更新。
+  # 毎時 0 分は GitHub 全体で混雑し schedule が遅延・ドロップされやすいので外す。
+  # (2026-10-23: 無効化→再有効化後に schedule が再登録されず cron が一度も発火しな
+  #  かった。default branch でこの cron 行を変更する push が再登録のトリガになる)
   schedule:
-    - cron: '0 * * * *'
+    - cron: '17 * * * *'
 
 permissions:
   contents: write   # 新規生成した clip JSON を data/ に commit して永続化
